@@ -6,25 +6,28 @@
     --syspluslaranja: rgb(236, 102, 40);
 }
 
-
-body {
+html, body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: "Trebuchet MS", sans-serif;
 }
 
 .center {
-    font-family: "Trebuchet MS", sans-serif;
-    min-height: 100vh;
-    margin: 0;
+    flex: 1;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding: 30px 0;
+    align-items: center;
+    padding: 40px 20px;
 }
 
-.box {
-    width: 500px;
+.box-login {
+    width: 90%;
+    min-width: 300px;
+    max-width: 500px;
     padding: 30px;
     background: white;
     border-radius: 15px;
@@ -33,26 +36,15 @@ body {
     flex-direction: column;
 }
 
-.topo {
+.box {
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px var(--shadow);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--topocolor);
-    padding: 20px 25px;
-}
-
-.sub-topo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--subtopocolor);
-    padding: 10px 20px;
-}
-
-.cadastro {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 15px;
+    flex-direction: column;
 }
 
 h2 {
@@ -60,6 +52,12 @@ h2 {
     margin-bottom: 20px;
     color: var(--textcolor);
     font-size: 26px;
+}
+
+.cadastro {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 15px;
 }
 
 label {
@@ -74,8 +72,12 @@ input {
     margin-top: 5px;
     border-radius: 8px;
     border: none;
-    background-color: #e4e4e4;
-    box-shadow: 0px 15px 15px var(--shadow);
+    background-color: #f2f2f2;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 button {
@@ -96,7 +98,7 @@ button:hover {
     opacity: 0.9;
 }
 
-a {
+.botao-signup {
     text-decoration: none;
 }
 
@@ -104,8 +106,33 @@ a {
     width: 120px;
 }
 
+.topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--topocolor);
+    padding: 20px 25px;
+}
+
+.sub-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--subtopocolor);
+    padding: 10px 20px;
+}
+
+.busca {
+    flex: 1;
+    margin: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .busca input {
-    width: 700px;
+    width: 100%;
+    max-width: 700px;
     padding: 10px;
     border-radius: 5px;
     border: none;
@@ -295,4 +322,76 @@ a {
     padding-right: 10px;
     position: relative;
     top: 4px;
+}
+
+@media (max-width: 900px) {
+    .topo {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px 15px;
+    }
+
+    .busca {
+        order: 3;
+        width: 100%;
+        margin: 0;
+    }
+
+    .sub-topo {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .navigation a {
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 600px) {
+    .topo {
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .busca {
+        order: 3;
+        width: 100%;
+        margin: 0;
+    }
+
+    .navigation {
+        display: none;
+    }
+
+    .sub-topo {
+        flex-direction: column;
+    }
+
+    .box {
+        width: 95%;
+        padding: 20px 15px;
+    }
+
+    .linha {
+        flex-direction: column;
+    }
+
+    .options-profile {
+        grid-template-columns: 1fr;
+    }
+
+    .item {
+        margin-left: 0;
+        margin-right: 0;
+        height: auto;
+        padding: 15px;
+    }
 }
