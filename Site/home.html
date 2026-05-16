@@ -19,8 +19,8 @@
             <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
         </div>
 
-        <div>
-            <a href="login.html" class="botao-login"><img src="img/user.png">VISITANTE</a>
+        <div id="area-usuario" class="botao-login">
+            
         </div>
 
     </div>
@@ -48,5 +48,28 @@
             <a href="#"><img src="img/suascompras.png">Suas compras</a>
         </div>
     </div>
+    <script>
+        const logado = localStorage.getItem('usuario_logado');
+        const nome   = localStorage.getItem('usuario_nome');
+        const area   = document.getElementById('area-usuario');
+
+        if (logado === 'true' && nome) {
+            // Usuário logado: mostra o nome
+            const primeiroNome = nome.split(' ')[0]; // pega só o primeiro nome
+
+            area.innerHTML = `
+                <span class="saudacao">Olá, ${primeiroNome}!</span>
+                <img src="img/user.png"  alt="perfil">
+            `;
+        } else {
+            // Visitante: mostra botão de login
+            area.innerHTML = `
+                <a href="login.html">
+                    <img src="img/user.png" class="icone-perfil" alt="perfil">
+                    VISITANTE
+                </a>
+            `;
+        }
+    </script>
 </body>
 </html>

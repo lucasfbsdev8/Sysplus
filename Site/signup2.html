@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="center">
-        <form class="box">
+        <form class="box" id="formEtapa2" onsubmit="validarEtapa2(event)">
             <p class="etapa">Etapa 2: Configuração de Perfil</p>
             <h2>QUASE LÁ!<br>CONFIGURE SEU PERFIL</h2>
             <p class="cadastro">Nos diga onde você está e o que procura para personalizar sua experiência</p>
@@ -58,6 +58,55 @@
             <button type="submit">CONFIRMAR PREFERÊNCIAS</button>
         </form>
     </div>
-    
+    <script>
+    window.onload = function() {
+        const nome = sessionStorage.getItem('cadastro_nome');
+
+        if (!nome) {
+            alert('Por favor, complete a etapa 1 primeiro.');
+            window.location.href = 'signup.html'; 
+            }
+    }
+
+    function validarEtapa2(event) {
+        event.preventDefault();
+
+        // 1. Verifica se o CEP foi preenchido
+        const cep = document.getElementById('cep').value.trim();
+        if (!cep || cep.length < 8) {
+            alert('Por favor, insira um CEP válido.');
+            return;
+        }
+
+        // 2. Verifica se ao menos uma preferência foi selecionada
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const algumMarcado = Array.from(checkboxes).some(cb => cb.checked);
+
+        if (!algumMarcado) {
+            alert('Selecione ao menos uma preferência.');
+            return;
+        }
+
+        // 3. Salva as preferências
+        const preferencias = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        sessionStorage.setItem('cadastro_cep', cep);
+        sessionStorage.setItem('cadastro_preferencias', JSON.stringify(preferencias));
+
+        // 4. Aqui você pode enviar tudo para um backend ou redirecionar
+        alert('Cadastro concluído com sucesso!');
+        
+        localStorage.setItem('usuario_nome', sessionStorage.getItem('cadastro_nome'));
+        localStorage.setItem('usuario_logado', 'true');
+
+        sessionStorage.clear(); // limpa só os dados temporários do cadastro
+        window.location.href = 'home.html';
+        
+        sessionStorage.clear(); // limpa os dados temporários
+        window.location.href = 'home.html'; // redireciona para home
+    }
+    </script>
 </body>
 </html>
