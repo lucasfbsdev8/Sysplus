@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/símboloSysplus.png">
 </head>
 <body>
     <div class="topo">
         <div class="logo">
-            <a href="home.html"><img src="img/logoSysplus.png" class="sysplus">
+            <a href="index.html"><img src="img/logoSysplus.png" class="sysplus">
             </a>
         </div>
         <div>
@@ -55,7 +55,7 @@
                     </div>
             </div>
             <br>
-            <button type="submit">CONFIRMAR PREFERÊNCIAS</button>
+            <button type="submit" class="botao-acesso">CONFIRMAR PREFERÊNCIAS</button>
         </form>
     </div>
     <script>
@@ -73,9 +73,8 @@
 
         // 1. Verifica se o CEP foi preenchido
         const cep = document.getElementById('cep').value.trim();
-        const cepNumeros = cep.replace(/\D/g, '');
-        if (!cepNumeros || cepNumeros.length !== 9) {
-            alert('Por favor, insira um CEP válido com 8 dígitos + traço.');
+        if (!cep || cep.length < 9) {
+            alert('Por favor, insira um CEP válido.');
             return;
         }
 
@@ -104,6 +103,9 @@
 
         sessionStorage.clear(); // limpa só os dados temporários do cadastro
         window.location.href = 'home.html';
+        
+        sessionStorage.clear(); // limpa os dados temporários
+        window.location.href = 'home.html'; // redireciona para home
     }
     </script>
 </body>
