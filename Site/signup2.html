@@ -73,8 +73,9 @@
 
         // 1. Verifica se o CEP foi preenchido
         const cep = document.getElementById('cep').value.trim();
-        if (!cep || cep.length < 8) {
-            alert('Por favor, insira um CEP válido.');
+        const cepNumeros = cep.replace(/\D/g, '');
+        if (!cepNumeros || cepNumeros.length !== 9) {
+            alert('Por favor, insira um CEP válido com 8 dígitos + traço.');
             return;
         }
 
@@ -103,9 +104,6 @@
 
         sessionStorage.clear(); // limpa só os dados temporários do cadastro
         window.location.href = 'home.html';
-        
-        sessionStorage.clear(); // limpa os dados temporários
-        window.location.href = 'home.html'; // redireciona para home
     }
     </script>
 </body>
