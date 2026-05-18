@@ -72,19 +72,33 @@
         );
     
         function handleLogin() {
-            const ok =
+        const ok =
                 definirCampo(emailInput, erroEmail, validarEmail(emailInput.value), 'Insira um e-mail válido.') &
                 definirCampo(senhaInput, erroSenha, senhaInput.value.length >= 6, 'A senha deve ter pelo menos 6 caracteres.');
-        
+
             if (!ok) { mostrarToast('Corrija os campos destacados.', 'erro'); return; }
-        
+
+            // Busca nos usuários cadastrados
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const usuario = usuarios.find(
+                u => u.email === emailInput.value.trim() && u.senha === senhaInput.value
+            );
+
+            if (!usuario) {
+                mostrarToast('Email ou senha incorretos.', 'erro');
+                return;
+            }
+
+            // Salva sessão
+            localStorage.setItem('usuario_logado', 'true');
+            localStorage.setItem('usuario_nome', usuario.nome);
+            localStorage.setItem('usuario_email', usuario.email);
+
             btnLogin.disabled = true;
             btnLogin.textContent = 'Entrando...';
             setTimeout(() => {
                 mostrarToast('Login realizado!', 'sucesso');
-                btnLogin.disabled = false;
-                btnLogin.textContent = 'ACESSAR CONTA';
-                setTimeout(() => window.location.href = 'home.html', 1200);
+                setTimeout(() => window.location.href = 'index.html', 1200);
             }, 1500);
         }
     

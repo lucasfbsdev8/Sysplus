@@ -96,17 +96,30 @@
         sessionStorage.setItem('cadastro_preferencias', JSON.stringify(preferencias));
 
         // 4. Aqui você pode enviar tudo para um backend ou redirecionar
-        alert('Cadastro concluído com sucesso!');
-        
-        localStorage.setItem('usuario_nome', sessionStorage.getItem('cadastro_nome'));
-        localStorage.setItem('usuario_logado', 'true');
+        const novoUsuario = {
+            nome:        sessionStorage.getItem('cadastro_nome'),
+            usuario:     sessionStorage.getItem('cadastro_usuario'),
+            cpf:         sessionStorage.getItem('cadastro_cpf'),
+            email:       sessionStorage.getItem('cadastro_email'),
+            telefone:    sessionStorage.getItem('cadastro_telefone'),
+            senha:       sessionStorage.getItem('cadastro_senha'),
+            cep:         cep,
+            preferencias: preferencias
+        };
 
-        sessionStorage.clear(); // limpa só os dados temporários do cadastro
-        window.location.href = 'home.html';
-        
-        sessionStorage.clear(); // limpa os dados temporários
-        window.location.href = 'home.html'; // redireciona para home
-    }
+        // Adiciona ao array de usuários
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        usuarios.push(novoUsuario);
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+        // Salva sessão
+        localStorage.setItem('usuario_logado', 'true');
+        localStorage.setItem('usuario_nome', novoUsuario.nome);
+        localStorage.setItem('usuario_email', novoUsuario.email);
+
+        alert('Cadastro concluído com sucesso!');
+        sessionStorage.clear();
+        window.location.href = 'index.html';
     </script>
 </body>
 </html>
