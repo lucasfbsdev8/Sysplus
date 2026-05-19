@@ -8,60 +8,62 @@
     <link rel="icon" href="img/símboloSysplus.png">
 </head>
 <body>
-    <div class="topo">
-
-        <div class="logo">
-            <a href="index.html"><img src="img/logoSysplus.png" class="sysplus">
-            </a>
+    <header>
+        <div class="topo">
+            <div class="logo">
+                <a href="index.html"><img src="img/logoSysplus.png" class="sysplus">
+                </a>
+            </div>            
+            <div class="busca">
+                <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
+            </div>
+            <div id="area-usuario" class="botao-login">
+            </div>
         </div>
+    </header>
         
-        <div class="busca">
-            <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
-        </div>
-
-        <div id="area-usuario" class="botao-login">
-            
-        </div>
-
-    </div>
-    <div class="sub-topo">
-        <div class="area">
-            <div class="sidebar">☰ Todos</div>
-            <div class="menu">
-                <a href="#">Todos os Produtos</a>
-                <a href="#">Roupas</a>
+    <nav>
+        <div class="sub-topo">
+            <div class="area">
+                <div class="sidebar">☰ Todos</div>
+                <div class="menu">
+                    <a href="#">Todos os Produtos</a>
+                    <a href="#">Roupas</a>
+                    <a href="#">Eletrônicos</a>
+                    <a href="#">Móveis</a>
+                    <a href="#">Brinquedos</a>
+                    <a href="#">Eletrodomésticos</a>
+                </div>
+            </div>
+            <div class="navigation">
+                <a href="#">Ofertas do Dia</a>
+                <a href="#">Moda</a>
                 <a href="#">Eletrônicos</a>
+                <a href="#">Esportes</a>
                 <a href="#">Móveis</a>
-                <a href="#">Brinquedos</a>
-                <a href="#">Eletrodomésticos</a>
+                <a href="#">Vender</a>
+            </div>
+            <div class="compras">
+                <a href="carrinho.html"><img src="img/suascompras.png">Suas compras</a>
             </div>
         </div>
-        <div class="navigation">
-            <a href="#">Ofertas do Dia</a>
-            <a href="#">Moda</a>
-            <a href="#">Eletrônicos</a>
-            <a href="#">Esportes</a>
-            <a href="#">Móveis</a>
-            <a href="#">Vender</a>
-        </div>
-        <div class="compras">
-            <a href="#"><img src="img/suascompras.png">Suas compras</a>
-        </div>
-    </div>
-
-    <section>
-        <div>
+    </nav>
+    <main>
+        <section>
             <div>
-                <img src="" alt="">
-                <h3></h3>
-                <a href=""></a>
-                <a href=""></a>
-                <h4></h4>
-                <h2></h2>
-                <p></p>
+                <div>
+                    <img src="" alt="">
+                    <h3></h3>
+                    <a href=""></a>
+                    <a href=""></a>
+                    <h4></h4>
+                    <h2></h2>
+                    <p></p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
+    
 
     <script>
         const logado = localStorage.getItem('usuario_logado');
