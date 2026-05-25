@@ -206,6 +206,13 @@
             `;
         }
 
+        function sair() {
+            localStorage.removeItem('usuario_nome');
+            localStorage.removeItem('usuario_email');
+            localStorage.setItem('usuario_logado', 'false');
+            location.href = 'index.html';
+        }
+
         if (logado === 'true' && nome) {
             
             eu.innerHTML = `
