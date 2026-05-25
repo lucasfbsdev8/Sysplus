@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/símboloSysplus.png">
+</head>
+<body>
+    <header>
+        <div class="topo-busca">
+
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logoSysplus.png" class="sysplus">
+                </a>
+            </div>
+            
+            <div class="busca">
+                <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
+            </div>
+
+            <div id="area-usuario" class="botao-login"></div>
+
+        </div>
+    </header>
+        
+    <nav>
+        <div class="sub-topo carrinho-end">
+
+            <div class="compras">
+                <a href="carrinho.html">
+                    <img src="img/suascompras.png">
+                    Suas compras
+                </a>
+            </div>
+
+        </div>
+    </nav>
+        
+
+    <section class="categorias-carrinho">
+
+        <div class="categoria-circulo">
+            <div class="bolinha ativa"></div>
+            <span>Carrinho</span>
+        </div>
+
+        <div class="linha-categoria"></div>
+
+        <div class="categoria-circulo">
+            <div class="bolinha"></div>
+            <span>Entrega</span>
+        </div>
+
+        <div class="linha-categoria"></div>
+
+        <div class="categoria-circulo">
+            <div class="bolinha"></div>
+            <span>Pagamento</span>
+        </div>
+
+    </section>
+
+    <section class="area-carrinho">
+
+        <div class="produtos-carrinho">
+
+            <h2>Seu Carrinho</h2>
+
+            <div class="card-carrinho">
+
+                <img src="img/produto1.png" class="imagem-produto">
+
+                <div class="info-produto">
+                    <h3>Notebook Gamer RGB</h3>
+                    <p>Entrega Full • Frete grátis</p>
+
+                    <div class="quantidade">
+                        <button>-</button>
+                        <span>1</span>
+                        <button>+</button>
+                    </div>
+                </div>
+
+                <div class="preco-produto">
+                    <h3>R$ 4.599</h3>
+                    <button class="remover">Remover</button>
+                </div>
+
+            </div>
+
+            <div class="card-carrinho">
+
+                <img src="img/produto2.png" class="imagem-produto">
+
+                <div class="info-produto">
+                    <h3>Headset Wireless</h3>
+                    <p>Entrega amanhã • Frete grátis</p>
+
+                    <div class="quantidade">
+                        <button>-</button>
+                        <span>1</span>
+                        <button>+</button>
+                    </div>
+                </div>
+
+                <div class="preco-produto">
+                    <h3>R$ 399</h3>
+                    <button class="remover">Remover</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="resumo-carrinho">
+
+            <h2>Resumo</h2>
+
+            <div class="linha-resumo">
+                <span>Produtos</span>
+                <span>R$ 4.998</span>
+            </div>
+
+            <div class="linha-resumo">
+                <span>Frete</span>
+                <span>Grátis</span>
+            </div>
+
+            <div class="linha-resumo total">
+                <span>Total</span>
+                <span>R$ 4.998</span>
+            </div>
+
+            <button class="finalizar-compra">
+                Finalizar Compra
+            </button>
+
+        </div>
+
+    </section>
+
+    <script>
+        const logado = localStorage.getItem('usuario_logado');
+        const nome   = localStorage.getItem('usuario_nome');
+        const area   = document.getElementById('area-usuario');
+
+        if (logado === 'true' && nome) {
+            const primeiroNome = nome.split(' ')[0];
+
+            area.innerHTML = `
+                <a href="perfil.html">
+                    <span class="saudacao">Olá, ${primeiroNome}!</span>
+                    <img src="img/user.png" alt="perfil">
+                </a>
+            `;
+        } else {
+            area.innerHTML = `
+                <a href="login.html">
+                    <img src="img/user.png" class="icone-perfil" alt="perfil">
+                    VISITANTE
+                </a>
+            `;
+        }
+    </script>
+
+</body>
+</html>
+

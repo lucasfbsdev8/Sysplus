@@ -8,34 +8,42 @@
     <link rel="icon" href="img/símboloSysplus.png">
 </head>
 <body>
-    <div class="topo">
+    <header>
+        <div class="topo">
             <div class="logo">
                 <a href="index.html"><img src="img/logoSysplus.png" class="sysplus">
                 </a>
             </div>
         </div>
-    <div class="center">
-        <div>
-            <form class="box-login">
-                <h2>LOGIN</h2>
-                <p class="cadastro">FAÇA SEU LOGIN</p>
+    </header>
+    
+    <main>
+        <section>
+            <div class="center">
                 <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    <div class="msg-erro" id="erro-email">Insira um e-mail válido.</div>
+                    <form class="box-login">
+                        <h2>LOGIN</h2>
+                        <p class="cadastro">FAÇA SEU LOGIN</p>
+                        <div>
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="msg-erro" id="erro-email">Insira um e-mail válido.</div>
+                        </div>
+                        <br><div>
+                            <label for="senha">Senha:</label>
+                            <input type="password" id="senha" name="senha">
+                            <div class="msg-erro" id="erro-senha">A senha deve ter pelo menos 6 caracteres.</div>
+                        </div><br>
+                        <button type="button " id="btn-login" class="botao-acesso">ACESSAR CONTA</button>
+                        <p class="cadastro">
+                            Não tem conta? <a href="signup.html" class="botao-signup">Cadastre-se</a>
+                        </p>
+                    </form>
                 </div>
-                <br><div>
-                    <label for="senha">Senha:</label>
-                    <input type="password" id="senha" name="senha">
-                    <div class="msg-erro" id="erro-senha">A senha deve ter pelo menos 6 caracteres.</div>
-                </div><br>
-                <button type="button " id="btn-login" class="botao-acesso">ACESSAR CONTA</button>
-                <p class="cadastro">
-                    Não tem conta? <a href="signup.html" class="botao-signup">Cadastre-se</a>
-                </p>
-            </form>
-        </div>
-    </div>
+            </div>
+        </section>
+    </main>
+    
     <div class="toast" id="toast"></div>
     <script>
         const emailInput = document.getElementById('email');
@@ -72,18 +80,32 @@
         );
     
         function handleLogin() {
-            const ok =
+        const ok =
                 definirCampo(emailInput, erroEmail, validarEmail(emailInput.value), 'Insira um e-mail válido.') &
                 definirCampo(senhaInput, erroSenha, senhaInput.value.length >= 6, 'A senha deve ter pelo menos 6 caracteres.');
-        
+
             if (!ok) { mostrarToast('Corrija os campos destacados.', 'erro'); return; }
-        
+
+            // Busca nos usuários cadastrados
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const usuario = usuarios.find(
+                u => u.email === emailInput.value.trim() && u.senha === senhaInput.value
+            );
+
+            if (!usuario) {
+                mostrarToast('Email ou senha incorretos.', 'erro');
+                return;
+            }
+
+            // Salva sessão
+            localStorage.setItem('usuario_logado', 'true');
+            localStorage.setItem('usuario_nome', usuario.nome);
+            localStorage.setItem('usuario_email', usuario.email);
+
             btnLogin.disabled = true;
             btnLogin.textContent = 'Entrando...';
             setTimeout(() => {
                 mostrarToast('Login realizado!', 'sucesso');
-                btnLogin.disabled = false;
-                btnLogin.textContent = 'ACESSAR CONTA';
                 setTimeout(() => window.location.href = 'index.html', 1200);
             }, 1500);
         }

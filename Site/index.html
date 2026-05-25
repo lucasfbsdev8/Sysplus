@@ -8,86 +8,81 @@
     <link rel="icon" href="img/símboloSysplus.png">
 </head>
 <body>
-    <div class="topo">
-
-        <div class="logo">
-            <a href="index.html"><img src="img/logoSysplus.png" class="sysplus">
-            </a>
+    <header>
+        <div class="topo-busca">
+            <div class="logo">
+                <a href="index.html"><img src="img/logoSysplus.png" class="sysplus">
+                </a>
+            </div>
+            <div class="busca">
+                <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
+            </div>
+            <div id="area-usuario" class="botao-login">
+            </div>
         </div>
-        
-        <div class="busca">
-            <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
-        </div>
+    </header>
 
-        <div id="area-usuario" class="botao-login">
-            
-        </div>
-
-    </div>
-    <div class="sub-topo">
-        <div class="area">
-            <div class="sidebar">☰ Todos</div>
-            <div class="menu">
-                <a href="#">Todos os Produtos</a>
-                <a href="#">Roupas</a>
+    <nav>
+        <div class="sub-topo">
+            <div class="area">
+                <div class="sidebar">☰ Todos</div>
+                <div class="menu">
+                    <a href="#">Todos os Produtos</a>
+                    <a href="#">Roupas</a>
+                    <a href="#">Eletrônicos</a>
+                    <a href="#">Móveis</a>
+                    <a href="#">Brinquedos</a>
+                    <a href="#">Eletrodomésticos</a>
+                </div>
+            </div>
+            <div class="navigation">
+                <a href="#">Ofertas do Dia</a>
+                <a href="#">Moda</a>
                 <a href="#">Eletrônicos</a>
+                <a href="#">Esportes</a>
                 <a href="#">Móveis</a>
-                <a href="#">Brinquedos</a>
-                <a href="#">Eletrodomésticos</a>
+                <a href="#">Vender</a>
+            </div>
+            <div class="compras">
+                <a href="carrinho.html"><img src="img/suascompras.png">Suas compras</a>
             </div>
         </div>
-        <div class="navigation">
-            <a href="#">Ofertas do Dia</a>
-            <a href="#">Moda</a>
-            <a href="#">Eletrônicos</a>
-            <a href="#">Esportes</a>
-            <a href="#">Móveis</a>
-            <a href="#">Vender</a>
-        </div>
-        <div class="compras">
-            <a href="#"><img src="img/suascompras.png">Suas compras</a>
-        </div>
-    </div>
+    </nav>    
+        
+    <main>
+        <section>
+            <div class="categoria">
+                <div class="categoria-item">
+                    <a href="#" class="btn-categoria"><img src="img/categoria-moda.png" alt="Categoria Moda"></a>
+                    <p>Moda</p>
+                </div>
+                <div class="categoria-item">
+                    <a href="#" class="btn-categoria"><img src="img/categoria-eletronicos.png" alt="Categoria Eletrônicos"></a>
+                <p>Eletrônicos</p>
+                </div>
+                <div class="categoria-item">
+                    <a href="#" class="btn-categoria"><img src="img/categoria-esportes.png" alt="Categoria Esportes"></a>
+                    <p>Esportes</p>
+                </div>
+                <div class="categoria-item">
+                    <a href="#" class="btn-categoria"><img src="img/categoria-moveis.png" alt="Categoria Móveis"></a>
+                    <p>Móveis</p>
+                </div>
+            </div>
+        </section>
 
-    <section>
-        <div class="categoria">
-            <div class="categoria-item">
-                <a href="#" class="btn-categoria"><img src="img/categoria-moda.png" alt="Categoria Moda"></a>
-                <p>Moda</p>
+        <section class="secao-produtos">
+            <h2 class="ofertas">OFERTAS DO DIA</h2>
+            <div class="grade-produtos" id="ofertas-produtos">
+                <!-- os cards serão inseridos pelo JavaScript -->
             </div>
-            <div class="categoria-item">
-                <a href="#" class="btn-categoria"><img src="img/categoria-eletronicos.png" alt="Categoria Eletrônicos"></a>
-            <p>Eletrônicos</p>
+            <h2 class="ofertas">PRODUTOS</h2>
+            <div class="grade-produtos" id="todos-produtos">
+                <!-- os cards serão inseridos pelo JavaScript -->
             </div>
-            <div class="categoria-item">
-                <a href="#" class="btn-categoria"><img src="img/categoria-esportes.png" alt="Categoria Esportes"></a>
-                <p>Esportes</p>
-            </div>
-            <div class="categoria-item">
-                <a href="#" class="btn-categoria"><img src="img/categoria-eletrodomesticos.png" alt="Categoria Eletrodomésticos"></a>
-                <p>Eletrodomésticos</p>
-            </div>
-            <div class="categoria-item">
-                <a href="#" class="btn-categoria"><img src="img/categoria-moveis.png" alt="Categoria Móveis"></a>
-                <p>Móveis</p>
-            </div>
-            <div class="categoria-item">
-                <a href="#" class="btn-categoria"><img src="img/categoria-beleza.png" alt="Categoria Beleza"></a>
-                <p>Beleza</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="secao-produtos">
-        <h2 class="ofertas">OFERTAS DO DIA</h2>
-        <div class="grade-produtos" id="lista-produtos">
-            <!-- os cards serão inseridos pelo JavaScript -->
-        </div>
-        <h2 class="ofertas">PRODUTOS</h2>
-        <div class="grade-produtos" id="lista-produtos">
-            <!-- os cards serão inseridos pelo JavaScript -->
-        </div>
-    </section>
+        </section>
+    </main>
+        
 
     <script>
         const logado = localStorage.getItem('usuario_logado');
@@ -99,8 +94,10 @@
             const primeiroNome = nome.split(' ')[0]; // pega só o primeiro nome
 
             area.innerHTML = `
-                <span class="saudacao">Olá, ${primeiroNome}!</span>
-                <img src="img/user.png"  alt="perfil">
+                <a href="perfil.html">
+                    <span class="saudacao">Olá, ${primeiroNome}!</span>
+                    <img src="img/user.png"  alt="perfil">
+                </a>
             `;
         } else {
             // Visitante: mostra botão de login

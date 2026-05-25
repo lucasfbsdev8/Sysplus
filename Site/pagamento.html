@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forma de Pagamento</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/símboloSysplus.png">
+</head>
+<body>
+    <header>
+        <div class="topo-busca">
+
+            <div class="logo">
+                <a href="index.html">
+                    <img src="img/logoSysplus.png" class="sysplus">
+                </a>
+            </div>
+            
+            <div class="busca">
+                <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
+            </div>
+
+            <div id="area-usuario" class="botao-login"></div>
+
+        </div>
+    </header>
+        
+    <nav>
+        <div class="sub-topo  carrinho-end">
+
+            <div class="compras">
+                <a href="carrinho.html">
+                    <img src="img/suascompras.png">
+                    Suas compras
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <script>
+        const logado = localStorage.getItem('usuario_logado');
+        const nome   = localStorage.getItem('usuario_nome');
+        const area   = document.getElementById('area-usuario');
+
+        if (logado === 'true' && nome) {
+            // Usuário logado: mostra o nome
+            const primeiroNome = nome.split(' ')[0]; // pega só o primeiro nome
+
+            area.innerHTML = `
+                <a href="perfil.html">
+                    <span class="saudacao">Olá, ${primeiroNome}!</span>
+                    <img src="img/user.png"  alt="perfil">
+                </a>
+            `;
+        } else {
+            // Visitante: mostra botão de login
+            area.innerHTML = `
+                <a href="login.html">
+                    <img src="img/user.png" class="icone-perfil" alt="perfil">
+                    VISITANTE
+                </a>
+            `;
+        }
+    </script>
+</body>
+</html>

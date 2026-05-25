@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/símboloSysplus.png">
+</head>
+<body>
+    <header>
+        <div class="topo">
+            <div class="logo">
+                <a href="index.html"><img src="img/logoSysplus.png" alt="Logo Sysplus" class="sysplus">
+                </a>
+            </div>
+            <div id="area-usuario" class="header-user">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="center-perfil">
+                <div class="btn-perfil">
+                    <button class="btn-conf-perfil" onclick="mudarTela('tela-perfil')">MEU PERFIL</button>
+                    <button class="btn-conf-perfil" onclick="mudarTela('tela-editar')">EDITAR INFORMAÇÕES</button>
+                    <button class="btn-conf-perfil" onclick="mudarTela('tela-seguranca')">SEGURANÇA</button>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="center-perfil">
+                <div class="box-info" id="tela-perfil">
+                    <div class="info">
+                        <img src="img/user.png" alt="Usuário">
+                        <div class="info-text">
+                            <div id="info-usuario"></div>
+                        <p>Cliente desde Jan 2026</p>
+                        <div class="sua-conta"><p>⍟ Conta ativada</p></div>
+                        </div>
+                    </div>
+                    <div class="end">
+                            <button onclick="mudarTela('tela-editar')">ALTERAR</button>
+                    </div>
+                    <h4>Dados Pessoais</h4>
+                    <div class="inf-pessoais">
+                        <div class="campo-info">
+                            <label>Nome Completo</label>
+                            <p id="name">-</p>
+                        </div>
+                        <div class="linha">
+                            <div class="campo-info">
+                            <label>CPF</label>
+                            <p id="cpf">-</p>
+                        </div>
+                        <div class="campo-info">
+                            <label>Whatsapp</label>
+                            <p id="telefone">-</p>
+                        </div>
+                        </div>
+                        
+                        <div class="campo-info">
+                            <label>Email</label>
+                            <p id="email">-</p>
+                        </div>
+                        <p class="divisor">Endereço</p>
+                    </div>
+                    <div class="inf-endereço">
+                        <div class="linha">
+                            <div class="campo-info">
+                            <label>CEP</label>
+                            <p id="cep">-</p>
+                        </div>
+                        <div class="campo-info">
+                            <label>Cidade/Estado</label>
+                            <p id="cidade">-</p>
+                        </div>
+                        </div>
+                        
+                        <div class="campo-info">
+                            <label>Logradouro</label>
+                            <p id="logradouro">-</p>
+                        </div>
+                    </div>                
+                </div>
+
+                <div class="box-info" id="tela-editar" style="display:none">
+                    
+                    <h4>Dados Pessoais</h4>
+                    
+                    <div class="inf-pessoais">
+                        <div class="campo-info">
+                            <label>Nome Completo</label>
+                            <input type="text" id="edit-name">
+                        </div>
+                        <div class="linha">
+                            <div class="campo-info">
+                            <label>CPF</label>
+                            <input type="text" id="edit-cpf">
+                        </div>
+                        <div class="campo-info">
+                            <label>Whatsapp</label>
+                            <input type="tel" id="edit-telefone">
+                        </div>
+                        </div>
+                        
+                        <div class="campo-info">
+                            <label>Email</label>
+                            <input type="email" id="edit-email">
+                        </div>
+                        <p class="divisor">Endereço</p>
+                    </div>
+                    <div class="inf-endereço">
+                        <div class="linha">
+                            <div class="campo-info">
+                            <label>CEP</label>
+                            <input type="text" id="edit-cep">
+                        </div>
+                        <div class="campo-info">
+                            <label>Cidade/Estado</label>
+                            <input type="text" id="edit-cidade">
+                        </div>
+                        </div>
+                        
+                        <div class="campo-info">
+                            <label>Logradouro</label>
+                            <input type="text" id="edit-logradouro">
+                        </div>
+                        <div class="end">
+                            <button class="btn-editar" onclick="mudarTela('tela-perfil')">CANCELAR</button>
+                            <button class="btn-editar" onclick="salvarEdicao()">SALVAR ALTERAÇÕES</button>
+                        </div>
+                    </div>     
+                </div>
+
+                <div id="tela-seguranca" style="display:none">
+                    <div class="box-info">
+                        <h4>SEGURANÇA</h4>
+                        
+                        <div class="inf-pessoais">
+                            <div class="campo-info">
+                                <label>Senha Atual</label>
+                                <input type="password" id="senha" placeholder="Digite sua senha atual">
+                            </div>
+                            <div class="linha">
+                                <div class="campo-info">
+                                    <label>Nova Senha</label>
+                                    <input type="password" id="nova-senha" placeholder="Criar nova senha">
+                                </div>
+                                <div class="campo-info">
+                                    <label>Confirmar Nova Senha</label>
+                                    <input type="password" id="confirmar-nova-senha" placeholder="Confirmar senha">
+                                </div>
+                            </div>
+                            <div class="end">
+                                <button class="btn-editar" onclick="atualizarSenha()">ATUALIZAR SENHA</button>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="box-info">
+                        <h3>ZONA DE PERIGO</h3>
+                        <p style="color: white; font-size: 15px; font-weight: bold;">Ao sair da conta, você precisará fazer login novamente para acessar seus dados.</p>
+                        <div class="inf-pessoais">
+                            <div class="end">
+                                <button class="btn-editar" onclick="abrirModal()">SAIR DA CONTA</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </section>
+        <div class="modal-overlay" id="modal-logout">
+            <div class="modal-card">
+                <h3>Sair da conta?</h3>
+                <p>Você será desconectado da sua conta SYSPLUS. Seus dados estão salvos e você pode entrar novamente a qualquer momento.</p>
+                <div class="end">
+                    <button class="btn-editar" onclick="fecharModal()">CANCELAR</button>
+                    <button class="btn-editar" onclick="sair()">SAIR</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const nome = localStorage.getItem('usuario_nome');
+        const email  = localStorage.getItem('usuario_email');
+        const logado = localStorage.getItem('usuario_logado');
+        const area   = document.getElementById('area-usuario');
+        const eu = document.getElementById('info-usuario')
+
+        if (logado === 'true' && nome) {
+            // Usuário logado: mostra o nome
+            const primeiroNome = nome.split(' ')[0]; // pega só o primeiro nome
+
+            area.innerHTML = `
+                <img src="img/user.png" alt="Usuário">
+                <p class="usuario">${primeiroNome}</p>
+                <div class="dropdown" id="dropdown">
+                    <div class="dd-item" onclick="location.href='perfil.html'">♕    Meu      perfil</div>
+                    <div class="dd-item" onclick="mudarTela('tela-editar')">Editar Informações</div>
+                    <div class="dd-item" onclick="mudarTela('tela-seguranca')">Segurança</div>
+                    <div class="dd-item danger" onclick="abrirModal()">⌫  Sair da conta</div>
+                </div>
+            `;
+        }
+
+        if (logado === 'true' && nome) {
+            
+            eu.innerHTML = `
+            <p>${nome}</p>
+            `;
+        }
+
+        document.getElementById('area-usuario').addEventListener('click', function() {
+            document.getElementById('dropdown').classList.toggle('open');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!document.getElementById('area-usuario').contains(e.target)) {
+                const dd = document.getElementById('dropdown');
+                if (dd) dd.classList.remove('open');
+            }
+        });
+
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const usuario  = usuarios.find(u => u.email === email);
+
+        if (usuario) {
+            document.getElementById('name').textContent = usuario.nome      ?? '-';
+            document.getElementById('cpf').textContent       = usuario.cpf       ?? '-';
+            document.getElementById('telefone').textContent  = usuario.telefone  ?? '-';
+            document.getElementById('email').textContent     = usuario.email     ?? '-';
+            document.getElementById('cep').textContent       = usuario.cep       ?? '-';
+            document.getElementById('cidade').textContent       = usuario.cidade       ?? '-';
+            document.getElementById('logradouro').textContent       = usuario.logradouro       ?? '-';
+        }
+
+        function mudarTela(id) {
+            document.getElementById('tela-perfil').style.display = 'none';
+            document.getElementById('tela-editar').style.display = 'none';
+            document.getElementById('tela-seguranca').style.display = 'none';
+            document.getElementById(id).style.display = 'block';
+
+            if (id === 'tela-editar' && usuario) {
+                document.getElementById('edit-name').value     = usuario.nome     ?? '';
+                document.getElementById('edit-cpf').value      = usuario.cpf      ?? '';
+                document.getElementById('edit-telefone').value = usuario.telefone ?? '';
+                document.getElementById('edit-email').value    = usuario.email    ?? '';
+                document.getElementById('edit-cep').value      = usuario.cep      ?? '';
+                document.getElementById('edit-cidade').value      = usuario.cidade      ?? '';
+                document.getElementById('edit-logradouro').value      = usuario.logradouro      ?? '';
+            }
+
+            const dd = document.getElementById('dropdown');
+                if (dd) dd.classList.remove('open');
+        }
+
+        function salvarEdicao() {
+            const novoNome     = document.getElementById('edit-name').value.trim();
+            const novoCpf      = document.getElementById('edit-cpf').value.trim();
+            const novoTelefone = document.getElementById('edit-telefone').value.trim();
+            const novoEmail    = document.getElementById('edit-email').value.trim();
+            const novoCep      = document.getElementById('edit-cep').value.trim();
+            const novoCidade      = document.getElementById('edit-cidade').value.trim();
+            const novoLogradouro      = document.getElementById('edit-logradouro').value.trim();
+
+            if (!novoNome || !novoEmail) {
+                alert('Nome e email são obrigatórios.');
+                return;
+            }
+
+            usuario.nome     = novoNome;
+            usuario.cpf      = novoCpf;
+            usuario.telefone = novoTelefone;
+            usuario.email    = novoEmail;
+            usuario.cep      = novoCep;
+            usuario.cidade   = novoCidade;
+            usuario.logradouro = novoLogradouro;
+
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+            localStorage.setItem('usuario_nome', novoNome);
+            localStorage.setItem('usuario_email', novoEmail);
+
+            document.getElementById('name').textContent     = novoNome;
+            document.getElementById('cpf').textContent      = novoCpf;
+            document.getElementById('telefone').textContent = novoTelefone;
+            document.getElementById('email').textContent    = novoEmail;
+            document.getElementById('cep').textContent      = novoCep;
+            document.getElementById('cidade').textContent      = novoCidade;
+            document.getElementById('logradouro').textContent      = novoLogradouro;
+
+            mudarTela('tela-perfil');
+            alert('Informações salvas com sucesso!');
+        }
+
+        function atualizarSenha() {
+            const senhaAtual    = document.getElementById('senha').value;
+            const novaSenha     = document.getElementById('nova-senha').value;
+            const confirmarSenha = document.getElementById('confirmar-nova-senha').value;
+
+            if (!senhaAtual || !novaSenha || !confirmarSenha) {
+                alert('Preencha todos os campos.');
+                return;
+            }
+
+            if (senhaAtual !== usuario.senha) {
+                alert('Senha atual incorreta.');
+                return;
+            }
+
+            if (novaSenha.length < 6) {
+                alert('A nova senha deve ter pelo menos 6 caracteres.');
+                return;
+            }
+
+            if (novaSenha !== confirmarSenha) {
+                alert('As senhas não coincidem.');
+                return;
+            }
+
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+            document.getElementById('senha').value = '';
+            document.getElementById('nova-senha').value = '';
+            document.getElementById('confirmar-nova-senha').value = '';
+
+            alert('Senha atualizada com sucesso!');
+        }
+
+        function abrirModal() {
+            document.getElementById('modal-logout').classList.add('aberto');
+        }
+
+        function fecharModal() {
+            document.getElementById('modal-logout').classList.remove('aberto');
+        }
+
+        console.log('usuario_nome:', localStorage.getItem('usuario_nome'));
+        console.log('usuario_email:', localStorage.getItem('usuario_email'));
+        console.log('usuarios:', localStorage.getItem('usuarios'));
+    </script>
+</body>
+</html>

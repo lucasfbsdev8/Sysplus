@@ -8,7 +8,8 @@
     <link rel="icon" href="img/símboloSysplus.png">
 </head>
 <body>
-    <div class="topo">
+    <header>
+        <div class="topo">
         <div class="logo">
             <a href="index.html"><img src="img/logoSysplus.png" class="sysplus">
             </a>
@@ -17,47 +18,54 @@
             <a href="login.html" class="botao-login">LOGIN</a>
         </div>
     </div>
-    <div class="center">
-        <form class="box" id="formEtapa2" onsubmit="validarEtapa2(event)">
-            <p class="etapa">Etapa 2: Configuração de Perfil</p>
-            <h2>QUASE LÁ!<br>CONFIGURE SEU PERFIL</h2>
-            <p class="cadastro">Nos diga onde você está e o que procura para personalizar sua experiência</p>
-            <div>
-                <label for="cep">CEP (Código Postal):</label>
-                <input type="tel" id="cep" name="cep" placeholder="_____-___" required>
-            </div><br>
-            <div>
-                    <div class="options-profile">
-                        <div class="item">
-                            <img src="img/moda.png" class="preferencias">
-                                <label>
-                                    <input type="checkbox" name="moda" value="MODA">MODA
-                                </label>
-                        </div>
-                        <div class="item">
-                            <img src="img/eletronicos.png" class="preferencias">
-                                <label>
-                                    <input type="checkbox" name="eletronicos" value="ELETRONICOS">ELETRÔNICOS
-                                </label>
-                        </div>
-                        <div class="item">
-                            <img src="img/eletrodomesticos.png" class="preferencias">
-                                <label>
-                                    <input type="checkbox" name="eletrodomesticos" value="ELETRODOMESTICOS">ELETRODOMÉSTICOS
-                                </label>
-                        </div>
-                        <div class="item">
-                            <img src="img/outros.png" class="preferencias">
-                                <label>
-                                    <input type="checkbox" name="outros" value="OUTROS">OUTROS
-                                </label>
-                        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="center">
+                <form class="box" id="formEtapa2" onsubmit="validarEtapa2(event)">
+                    <p class="etapa">Etapa 2: Configuração de Perfil</p>
+                    <h2>QUASE LÁ!<br>CONFIGURE SEU PERFIL</h2>
+                    <p class="cadastro">Nos diga onde você está e o que procura para personalizar sua experiência</p>
+                    <div>
+                        <label for="cep">CEP (Código Postal):</label>
+                        <input type="tel" id="cep" name="cep" placeholder="_____-___" required>
+                    </div><br>
+                    <div>
+                            <div class="options-profile">
+                                <div class="item">
+                                    <img src="img/moda.png" class="preferencias">
+                                        <label>
+                                            <input type="checkbox" name="moda" value="MODA">MODA
+                                        </label>
+                                </div>
+                                <div class="item">
+                                    <img src="img/eletronicos.png" class="preferencias">
+                                        <label>
+                                            <input type="checkbox" name="eletronicos" value="ELETRONICOS">ELETRÔNICOS
+                                        </label>
+                                </div>
+                                <div class="item">
+                                    <img src="img/esportes.png" class="preferencias-novo">
+                                        <label>
+                                            <input type="checkbox" name="esportes" value="ESPORTES">ESPORTES
+                                        </label>
+                                </div>
+                                <div class="item">
+                                    <img src="img/moveis.png" class="preferencias">
+                                        <label>
+                                            <input type="checkbox" name="moveis" value="MÓVEIS">MÓVEIS
+                                        </label>
+                                </div>
+                            </div>
                     </div>
+                    <br>
+                    <button type="submit" class="botao-acesso">CONFIRMAR PREFERÊNCIAS</button>
+                </form>
             </div>
-            <br>
-            <button type="submit" class="botao-acesso">CONFIRMAR PREFERÊNCIAS</button>
-        </form>
-    </div>
+        </section>
+    </main>
+            
     <script>
     window.onload = function() {
         const nome = sessionStorage.getItem('cadastro_nome');
@@ -96,16 +104,31 @@
         sessionStorage.setItem('cadastro_preferencias', JSON.stringify(preferencias));
 
         // 4. Aqui você pode enviar tudo para um backend ou redirecionar
-        alert('Cadastro concluído com sucesso!');
-        
-        localStorage.setItem('usuario_nome', sessionStorage.getItem('cadastro_nome'));
-        localStorage.setItem('usuario_logado', 'true');
+        // Monta o objeto do novo usuário
+        const novoUsuario = {
+            nome:        sessionStorage.getItem('cadastro_nome'),
+            usuario:     sessionStorage.getItem('cadastro_usuario'),
+            cpf:         sessionStorage.getItem('cadastro_cpf'),
+            email:       sessionStorage.getItem('cadastro_email'),
+            telefone:    sessionStorage.getItem('cadastro_telefone'),
+            senha:       sessionStorage.getItem('cadastro_senha'),
+            cep:         cep,
+            preferencias: preferencias
+        };
 
-        sessionStorage.clear(); // limpa só os dados temporários do cadastro
+        // Adiciona ao array de usuários
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        usuarios.push(novoUsuario);
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+        // Salva sessão
+        localStorage.setItem('usuario_logado', 'true');
+        localStorage.setItem('usuario_nome', novoUsuario.nome);
+        localStorage.setItem('usuario_email', novoUsuario.email);
+
+        alert('Cadastro concluído com sucesso!');
+        sessionStorage.clear();
         window.location.href = 'index.html';
-        
-        sessionStorage.clear(); // limpa os dados temporários
-        window.location.href = 'index.html'; // redireciona para home
     }
     </script>
 </body>
