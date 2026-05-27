@@ -64,5 +64,14 @@
             `;
         }
     </script>
+    <script>
+        function confirmarPedido() {
+          // validações de cartão/pix/boleto aqui
+          localStorage.removeItem('carrinho');
+          sessionStorage.removeItem('endereco');
+          alert('Pedido confirmado! Obrigado pela compra.');
+          window.location.href = 'index.html';
+        }
+    </script>
 </body>
 </html>

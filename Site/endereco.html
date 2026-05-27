@@ -65,5 +65,21 @@
             `;
         }
     </script>
+    <script>
+        function irParaPagamento() {
+          const campos = ['logradouro', 'numero', 'cidade', 'uf'];
+          const vazios = campos.filter(id => !document.getElementById(id).value.trim());
+          if (va    zios.length) { alert('Preencha todos os campos.'); return; }
+
+          sessionStorage.setItem('endereco', JSON.stringify({
+            logradouro: document.getElementById('logradouro').value,
+            numero:     document.getElementById('numero').value,
+            cidade:     document.getElementById('cidade').value,
+            uf:         document.getElementById('uf').value,
+            }));
+      
+          window.location.href = 'pagamento.html';
+        }
+    </script>
 </body>
 </html>

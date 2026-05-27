@@ -68,50 +68,7 @@
         <div class="produtos-carrinho">
 
             <h2>Seu Carrinho</h2>
-
-            <div class="card-carrinho">
-
-                <img src="img/produto1.png" class="imagem-produto">
-
-                <div class="info-produto">
-                    <h3>Notebook Gamer RGB</h3>
-                    <p>Entrega Full • Frete grátis</p>
-
-                    <div class="quantidade">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-                </div>
-
-                <div class="preco-produto">
-                    <h3>R$ 4.599</h3>
-                    <button class="remover">Remover</button>
-                </div>
-
-            </div>
-
-            <div class="card-carrinho">
-
-                <img src="img/produto2.png" class="imagem-produto">
-
-                <div class="info-produto">
-                    <h3>Headset Wireless</h3>
-                    <p>Entrega amanhã • Frete grátis</p>
-
-                    <div class="quantidade">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-                </div>
-
-                <div class="preco-produto">
-                    <h3>R$ 399</h3>
-                    <button class="remover">Remover</button>
-                </div>
-
-            </div>
+            <div id="lista-carrinho"></div>
 
         </div>
 
@@ -131,7 +88,7 @@
 
             <div class="linha-resumo total">
                 <span>Total</span>
-                <span>R$ 4.998</span>
+                <span id="total-resumo">R$ 0</span>
             </div>
 
             <button class="finalizar-compra">
@@ -164,6 +121,60 @@
                 </a>
             `;
         }
+    </script>
+    
+    <script src="js/produtos.js"></script>
+    <script src="js/carrinho.js"></script>
+
+    <script>
+        function renderizarCarrinho() {
+          const carrinho = getCarrinho();
+          const lista = document.getElementById('lista-carrinho');
+        
+          if (carrinho.length === 0) {
+            lista.innerHTML = '<p style="text-align:center;padding:40px;color:#888">Carrinho vazio. <a href="index.html">Ver produtos</a></p>';
+            // zerar resumo
+            document.getElementById('total-resumo').textContent = 'R$ 0';
+            return;
+          }
+      
+          lista.innerHTML = carrinho.map(item => `
+            <div class="card-carrinho">
+              <img src="${item.imagem}" class="imagem-produto">
+              <div class="info-produto">
+                <h3>${item.nome}</h3>
+                <p>${item.entrega} • ${item.frete}</p>
+                <div class="quantidade">
+                  <button onclick="mudarQtd(${item.id}, -1)">-</button>
+                  <span>${item.qtd}</span>
+                  <button onclick="mudarQtd(${item.id}, 1)">+</button>
+                </div>
+              </div>
+              <div class="preco-produto">
+                <h3>R$ ${(item.preco * item.qtd).toLocaleString('pt-BR')}</h3>
+                <button class="remover" onclick="remover(${item.id})">Remover</button>
+              </div>
+            </div>`).join('');
+        
+          const total = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+          document.getElementById('total-resumo').textContent = 'R$ ' + total.toLocaleString('pt-BR');
+        }
+
+        function mudarQtd(id, delta) {
+          let c = getCarrinho();
+          const idx = c.findIndex(i => i.id === id);
+          c[idx].qtd += delta;
+          if (c[idx].qtd <= 0) c.splice(idx, 1);
+          salvarCarrinho(c);
+          renderizarCarrinho();
+        }
+
+        function remover(id) {
+          salvarCarrinho(getCarrinho().filter(i => i.id !== id));
+          renderizarCarrinho();
+        }
+
+        renderizarCarrinho();
     </script>
 
 </body>
