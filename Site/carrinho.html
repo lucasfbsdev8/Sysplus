@@ -72,32 +72,32 @@
 
         </div>
 
-        <div class="resumo-carrinho">
+<div class="resumo-carrinho">
+    <h2>Resumo</h2>
 
-            <h2>Resumo</h2>
+    <div class="linha-resumo">
+        <span>Produtos (<span id="qtd-itens">0</span>)</span>
+        <span id="subtotal-resumo">R$ 0</span>
+    </div>
 
-            <div class="linha-resumo">
-                <span>Produtos</span>
-                <span>R$ 4.998</span>
-            </div>
+    <div class="linha-resumo">
+        <span>Frete</span>
+        <span>Grátis</span>
+    </div>
 
-            <div class="linha-resumo">
-                <span>Frete</span>
-                <span>Grátis</span>
-            </div>
+    <div class="linha-resumo total">
+        <span>Total</span>
+        <span id="total-resumo">R$ 0</span>
+    </div>
 
-            <div class="linha-resumo total">
-                <span>Total</span>
-                <span id="total-resumo">R$ 0</span>
-            </div>
-
-            <button class="finalizar-compra">
-                Finalizar Compra
-            </button>
-
-        </div>
+    <button class="finalizar-compra" onclick="irParaEntrega()">
+        Finalizar Compra
+    </button>
+</div>
 
     </section>
+
+    <div class="toast" id="toast"></div>
 
     <script>
         const logado = localStorage.getItem('usuario_logado');
@@ -128,38 +128,57 @@
 
     <script>
         function renderizarCarrinho() {
-          const carrinho = getCarrinho();
-          const lista = document.getElementById('lista-carrinho');
+            const carrinho = getCarrinho();
+            const lista = document.getElementById('lista-carrinho');
         
-          if (carrinho.length === 0) {
-            lista.innerHTML = '<p style="text-align:center;padding:40px;color:#888">Carrinho vazio. <a href="index.html">Ver produtos</a></p>';
-            // zerar resumo
-            document.getElementById('total-resumo').textContent = 'R$ 0';
-            return;
-          }
-      
-          lista.innerHTML = carrinho.map(item => `
-            <div class="card-carrinho">
-              <img src="${item.imagem}" class="imagem-produto">
-              <div class="info-produto">
-                <h3>${item.nome}</h3>
-                <p>${item.entrega} • ${item.frete}</p>
-                <div class="quantidade">
-                  <button onclick="mudarQtd(${item.id}, -1)">-</button>
-                  <span>${item.qtd}</span>
-                  <button onclick="mudarQtd(${item.id}, 1)">+</button>
-                </div>
-              </div>
-              <div class="preco-produto">
-                <h3>R$ ${(item.preco * item.qtd).toLocaleString('pt-BR')}</h3>
-                <button class="remover" onclick="remover(${item.id})">Remover</button>
-              </div>
-            </div>`).join('');
+            if (carrinho.length === 0) {
+                lista.innerHTML = '<p style="text-align:center;padding:40px;color:#888">Carrinho vazio. <a href="index.html">Ver produtos</a></p>';
+                document.getElementById('qtd-itens').textContent     = 0;
+                document.getElementById('subtotal-resumo').textContent = 'R$ 0';
+                document.getElementById('total-resumo').textContent  = 'R$ 0';
+                return;
+            }
         
-          const total = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
-          document.getElementById('total-resumo').textContent = 'R$ ' + total.toLocaleString('pt-BR');
+            lista.innerHTML = carrinho.map(item => `
+                <div class="card-carrinho">
+                    <img src="${item.imagem}" class="imagem-produto">
+                    <div class="info-produto">
+                        <h3>${item.nome}</h3>
+                        <p>${item.entrega} • ${item.frete}</p>
+                        <div class="quantidade">
+                            <button onclick="mudarQtd(${item.id}, -1)">-</button>
+                            <span>${item.qtd}</span>
+                            <button onclick="mudarQtd(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="preco-produto">
+                        <h3>R$ ${(item.preco * item.qtd).toLocaleString('pt-BR')}</h3>
+                        <button class="remover" onclick="remover(${item.id})">Remover</button>
+                    </div>
+                </div>`).join('');
+            
+            const total    = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+            const qtdTotal = carrinho.reduce((s, i) => s + i.qtd, 0);
+            
+            document.getElementById('qtd-itens').textContent      = qtdTotal;
+            document.getElementById('subtotal-resumo').textContent = 'R$ ' + total.toLocaleString('pt-BR');
+            document.getElementById('total-resumo').textContent   = 'R$ ' + total.toLocaleString('pt-BR');
         }
-
+            
+        function irParaEntrega() {
+            const logado = localStorage.getItem('usuario_logado');
+            if (logado !== 'true') {
+                mostrarToast('Faça login para continuar.', 'erro');
+                setTimeout(() => window.location.href = 'login.html', 1500);
+                return;
+            }
+            if (getCarrinho().length === 0) {
+                mostrarToast('Seu carrinho está vazio!', 'erro');
+                return;
+            }
+            window.location.href = 'endereco.html';
+        }
+        
         function mudarQtd(id, delta) {
           let c = getCarrinho();
           const idx = c.findIndex(i => i.id === id);

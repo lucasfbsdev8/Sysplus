@@ -33,4 +33,12 @@ function atualizarBadge() {
   badge.style.display = total > 0 ? 'inline-block' : 'none';
 }
 
+function mostrarToast(msg, tipo = '') {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.className = 'toast visivel ' + tipo;
+    setTimeout(() => { toast.className = 'toast'; }, 2500);
+}
+
 atualizarBadge();
