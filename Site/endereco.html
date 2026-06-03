@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/símboloSysplus.png">
 </head>
+
 <body>
     <header>
         <div class="topo-busca">
@@ -16,7 +18,7 @@
                     <img src="img/logoSysplus.png" class="sysplus">
                 </a>
             </div>
-            
+
             <div class="busca">
                 <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
             </div>
@@ -25,7 +27,7 @@
 
         </div>
     </header>
-        
+
     <nav>
         <div class="sub-topo  carrinho-end">
 
@@ -42,27 +44,43 @@
 
     <script>
         const logado = localStorage.getItem('usuario_logado');
-        const nome   = localStorage.getItem('usuario_nome');
-        const area   = document.getElementById('area-usuario');
+        const nome = localStorage.getItem('usuario_nome');
+        const area = document.getElementById('area-usuario');
 
         if (logado === 'true' && nome) {
             // Usuário logado: mostra o nome
             const primeiroNome = nome.split(' ')[0]; // pega só o primeiro nome
 
             area.innerHTML = `
-                <a href="perfil.html">
-                    <span class="saudacao">Olá, ${primeiroNome}!</span>
-                    <img src="img/user.png"  alt="perfil">
-                </a>
-            `;
+               <a href="perfil.html">
+                   <span class="saudacao">Olá, ${primeiroNome}!</span>
+                   <img src="img/user.png"  alt="perfil">
+               </a>
+           `;
         } else {
             // Visitante: mostra botão de login
             area.innerHTML = `
-                <a href="login.html">
-                    <img src="img/user.png" class="icone-perfil" alt="perfil">
-                    VISITANTE
-                </a>
-            `;
+               <a href="login.html">
+                   <img src="img/user.png" class="icone-perfil" alt="perfil">
+                   VISITANTE
+               </a>
+           `;
+        }
+    </script>
+    <script>
+        function irParaPagamento() {
+            const campos = ['logradouro', 'numero', 'cidade', 'uf'];
+            const vazios = campos.filter(id => !document.getElementById(id).value.trim());
+            if (vazios.length) { alert('Preencha todos os campos.'); return; }
+
+            sessionStorage.setItem('endereco', JSON.stringify({
+                logradouro: document.getElementById('logradouro').value,
+                numero: document.getElementById('numero').value,
+                cidade: document.getElementById('cidade').value,
+                uf: document.getElementById('uf').value,
+            }));
+
+            window.location.href = 'pagamento.html';
         }
     </script>
     <script>
@@ -82,4 +100,5 @@
         }
     </script>
 </body>
+
 </html>

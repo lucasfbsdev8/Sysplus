@@ -16,7 +16,7 @@
                     <img src="img/logoSysplus.png" class="sysplus">
                 </a>
             </div>
-            
+
             <div class="busca">
                 <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
             </div>
@@ -25,7 +25,7 @@
 
         </div>
     </header>
-        
+
     <nav>
         <div class="sub-topo carrinho-end">
 
@@ -38,7 +38,7 @@
 
         </div>
     </nav>
-        
+
 
     <section class="categorias-carrinho">
 
@@ -72,29 +72,49 @@
 
         </div>
 
-<div class="resumo-carrinho">
-    <h2>Resumo</h2>
+<<<<<<< HEAD
 
-    <div class="linha-resumo">
-        <span>Produtos (<span id="qtd-itens">0</span>)</span>
-        <span id="subtotal-resumo">R$ 0</span>
-    </div>
+        <div class="resumo-carrinho">
+            <h2>Resumo</h2>
 
-    <div class="linha-resumo">
-        <span>Frete</span>
-        <span>Grátis</span>
-    </div>
+=======
+        
+        <div class="resumo-carrinho">
+            <h2>Resumo</h2>
+>>>>>>> e0092f9 (Integração de commits)
+            <div class="linha-resumo">
+                <span>Produtos (<span id="qtd-itens">0</span>)</span>
+                <span id="subtotal-resumo">R$ 0</span>
+            </div>
+<<<<<<< HEAD
 
-    <div class="linha-resumo total">
-        <span>Total</span>
-        <span id="total-resumo">R$ 0</span>
-    </div>
+=======
+>>>>>>> e0092f9 (Integração de commits)
+            <div class="linha-resumo">
+                <span>Frete</span>
+                <span>Grátis</span>
+            </div>
+<<<<<<< HEAD
 
-    <button class="finalizar-compra" onclick="irParaEntrega()">
-        Finalizar Compra
-    </button>
-</div>
+=======
+>>>>>>> e0092f9 (Integração de commits)
+            <div class="linha-resumo total">
+                <span>Total</span>
+                <span id="total-resumo">R$ 0</span>
+            </div>
+            <button class="finalizar-compra" onclick="irParaEntrega()">
+                Finalizar Compra
+            </button>
+        </div>
 
+<<<<<<< HEAD
+            <button class="finalizar-compra" onclick="irParaEntrega()">
+                Finalizar Compra
+            </button>
+        </div>
+
+=======
+>>>>>>> e0092f9 (Integração de commits)
     </section>
 
     <div class="toast" id="toast"></div>
@@ -122,7 +142,7 @@
             `;
         }
     </script>
-    
+
     <script src="js/produtos.js"></script>
     <script src="js/carrinho.js"></script>
 
@@ -179,18 +199,34 @@
             window.location.href = 'endereco.html';
         }
         
+
+            
+        function irParaEntrega() {
+            const logado = localStorage.getItem('usuario_logado');
+            if (logado !== 'true') {
+                mostrarToast('Faça login para continuar.', 'erro');
+                setTimeout(() => window.location.href = 'login.html', 1500);
+                return;
+            }
+            if (getCarrinho().length === 0) {
+                mostrarToast('Seu carrinho está vazio!', 'erro');
+                return;
+            }
+            window.location.href = 'endereco.html';
+        }
+        
         function mudarQtd(id, delta) {
-          let c = getCarrinho();
-          const idx = c.findIndex(i => i.id === id);
-          c[idx].qtd += delta;
-          if (c[idx].qtd <= 0) c.splice(idx, 1);
-          salvarCarrinho(c);
-          renderizarCarrinho();
+            let c = getCarrinho();
+            const idx = c.findIndex(i => i.id === id);
+            c[idx].qtd += delta;
+            if (c[idx].qtd <= 0) c.splice(idx, 1);
+            salvarCarrinho(c);
+            renderizarCarrinho();
         }
 
         function remover(id) {
-          salvarCarrinho(getCarrinho().filter(i => i.id !== id));
-          renderizarCarrinho();
+            salvarCarrinho(getCarrinho().filter(i => i.id !== id));
+            renderizarCarrinho();
         }
 
         renderizarCarrinho();
@@ -198,4 +234,3 @@
 
 </body>
 </html>
-
