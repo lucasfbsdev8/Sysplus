@@ -526,7 +526,7 @@ img {
 .info p {
     margin: 4px 0;
     font-size: 15px;
-    color: white;
+    color: var(--textcolor);
     font-weight: bold;
 }
 

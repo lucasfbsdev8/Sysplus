@@ -44,7 +44,11 @@
                 <a href="#">Vender</a>
             </div>
             <div class="compras">
-                <a href="#"><img src="img/suascompras.png">Suas compras</a>
+                <a href="carrinho.html">
+                    <img src="img/suascompras.png">
+                    Suas compras
+                    <span id="badge-carrinho" class="badge-carrinho" style="display:none"></span>
+                </a>
             </div>
         </div>
     </nav>
@@ -82,42 +86,42 @@
     <script src="js/produtos.js"></script>
     <script src="js/carrinho.js"></script>
     <script>
-      const params = new URLSearchParams(window.location.search);
-      const id = parseInt(params.get('id'));
-      const produto = PRODUTOS.find(p => p.id === id);
-      const main = document.getElementById('conteudo-produto');
-    
-      if (!produto) {
-        main.innerHTML = '<p style="text-align:center;padding:60px">Produto não encontrado.</p>';
-      } else {
-        document.title = produto.nome + ' - Sysplus';
-        main.innerHTML = `
-          <section style="display:flex;gap:40px;padding:30px 40px;max-width:1100px;margin:0 auto">
-            <img src="${produto.imagem}" style="width:380px;object-fit:contain;background:white;border-radius:12px;padding:30px">
+        const params = new URLSearchParams(window.location.search);
+        const id = parseInt(params.get('id'));
+        const produto = PRODUTOS.find(p => p.id === id);
+        const main = document.getElementById('conteudo-produto');
         
-            <div style="flex:1">
-              <h1>${produto.nome}</h1>
-              <p style="font-size:13px;color:#888;text-decoration:line-through">
-                R$ ${produto.precoOriginal.toLocaleString('pt-BR')}
-              </p>
-              <p style="font-size:32px;font-weight:bold;color:var(--textcolor)">
-                R$ ${produto.preco.toLocaleString('pt-BR')}
-              </p>
-              <p style="color:#3B6D11">${produto.entrega} • ${produto.frete}</p>
-              <p>${produto.descricao}</p>
-          
-              <div style="display:flex;gap:12px;margin-top:20px">
-                <button class="botao-acesso" onclick="adicionarCarrinho(${produto.id}); window.location.href='carrinho.html'">
-                  Comprar agora
-                </button>
-                <button class="botao-acesso" style="background:transparent;border:2px solid var(--textcolor);color:var(--textcolor)"
-                  onclick="adicionarCarrinho(${produto.id})">
-                  Adicionar ao carrinho
-                </button>
-              </div>
-            </div>
-          </section>`;
-      }
+        if (!produto) {
+            main.innerHTML = '<p style="text-align:center;padding:60px">Produto não encontrado.</p>';
+        } else {
+            document.title = produto.nome + ' - Sysplus';
+            main.innerHTML = `
+            <section style="display:flex;gap:40px;padding:30px 40px;max-width:1100px;margin:0 auto">
+                <img src="${produto.imagem}" style="width:380px;object-fit:contain;background:white;border-radius:12px;padding:30px">
+            
+                <div style="flex:1">
+                <h1>${produto.nome}</h1>
+                <p style="font-size:13px;color:#888;text-decoration:line-through">
+                    R$ ${produto.precoOriginal.toLocaleString('pt-BR')}
+                </p>
+                <p style="font-size:32px;font-weight:bold;color:var(--textcolor)">
+                    R$ ${produto.preco.toLocaleString('pt-BR')}
+                </p>
+                <p style="color:#3B6D11">${produto.entrega} • ${produto.frete}</p>
+                <p>${produto.descricao}</p>
+            
+                <div style="display:flex;gap:12px;margin-top:20px">
+                    <button class="botao-acesso" onclick="adicionarCarrinho(${produto.id}); window.location.href='carrinho.html'">
+                    Comprar agora
+                    </button>
+                    <button class="botao-acesso" style="background:transparent;border:2px solid var(--textcolor);color:var(--textcolor)"
+                    onclick="adicionarCarrinho(${produto.id})">
+                    Adicionar ao carrinho
+                    </button>
+                </div>
+                </div>
+            </section>`;
+        }
     </script>
 </body>
 </html>

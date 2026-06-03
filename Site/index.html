@@ -117,30 +117,30 @@
     <script src="js/produtos.js"></script>
     <script src="js/carrinho.js"></script>
     <script>
-  function criarCard(p) {
-    return `
-      <div class="card-produto" onclick="window.location='produtos.html?id=${p.id}'">
-        <img src="${p.imagem}" alt="${p.nome}" class="img-card">
-        <div class="info-card">
-          <h3>${p.nome}</h3>
-          <p class="preco-card">R$ ${p.preco.toLocaleString('pt-BR')}</p>
-          <p class="frete-card">${p.frete}</p>
-          <button class="btn-adicionar"
-            onclick="event.stopPropagation(); adicionarCarrinho(${p.id})">
-            Adicionar ao carrinho
-          </button>
-        </div>
-      </div>`;
-  }
+        function criarCard(p) {
+            return `
+            <div class="card-produto" onclick="window.location='produtos.html?id=${p.id}'">
+                <img src="${p.imagem}" alt="${p.nome}" class="img-card">
+                <div class="info-card">
+                <h3>${p.nome}</h3>
+                <p class="preco-card">R$ ${p.preco.toLocaleString('pt-BR')}</p>
+                <p class="frete-card">${p.frete}</p>
+                <button class="btn-adicionar"
+                    onclick="event.stopPropagation(); adicionarCarrinho(${p.id})">
+                    Adicionar ao carrinho
+                </button>
+                </div>
+            </div>`;
+        }
 
-  function renderizar(lista) {
-    const ofertas = lista.filter(p => p.oferta);
-    const outros  = lista.filter(p => !p.oferta);
-    document.getElementById('ofertas-produtos').innerHTML = ofertas.map(criarCard).join('');
-    document.getElementById('todos-produtos').innerHTML   = outros.map(criarCard).join('');
-  }
+        function renderizar(lista) {
+            const ofertas = lista.filter(p => p.oferta);
+            const outros  = lista.filter(p => !p.oferta);
+            document.getElementById('ofertas-produtos').innerHTML = ofertas.map(criarCard).join('');
+            document.getElementById('todos-produtos').innerHTML   = outros.map(criarCard).join('');
+        }
 
-  renderizar(PRODUTOS);
-</script>
+        renderizar(PRODUTOS);
+    </script>
 </body>
 </html>
