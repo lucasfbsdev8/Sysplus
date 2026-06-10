@@ -72,4 +72,117 @@
                 <span id="total-resumo">R$ 0</span>
             </div>
             <div>
-                <button class="final
+                <button class="btn-editar" style="width: 100%; margin-top: 15px;" onclick="prosseguirParaEntrega()">
+                    CONTINUAR COMPRA
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/produtos.js"></script>
+
+    <script>
+        // 1. Controle da Área de Usuário (Menu Superior)
+        const logado = localStorage.getItem('usuario_logado');
+        const nome = localStorage.getItem('usuario_nome');
+        const area = document.getElementById('area-usuario');
+
+        if (logado === 'true' && nome) {
+            const primeiroNome = nome.split(' ')[0];
+            area.innerHTML = `
+               <a href="perfil.html">
+                   <span class="saudacao">Olá, ${primeiroNome}!</span>
+                   <img src="img/user.png" alt="perfil">
+               </a>
+            `;
+        } else {
+            area.innerHTML = `
+               <a href="login.html">
+                   <img src="img/user.png" class="icone-perfil" alt="perfil">
+                   VISITANTE
+               </a>
+            `;
+        }
+
+        // 2. Lógica para renderizar os itens do carrinho e calcular totais
+        function carregarCarrinho() {
+            // Pega o carrinho salvo (espera-se uma lista de IDs ou objetos armazenada no localStorage)
+            const itensCarrinhoIds = JSON.parse(localStorage.getItem('carrinho')) || [];
+            const listaContainer = document.getElementById('lista-carrinho');
+            
+            if (itensCarrinhoIds.length === 0) {
+                listaContainer.innerHTML = '<p style="padding: 20px 0;">Seu carrinho está vazio.</p>';
+                atualizarResumo(0, 0);
+                return;
+            }
+
+            let subtotal = 0;
+            let htmlItens = '';
+
+            // Mapeia os IDs salvos no carrinho com a lista de PRODUTOS (vinda de produtos.js)
+            itensCarrinhoIds.forEach((idProduto, index) => {
+                const produto = PRODUTOS.find(p => p.id === idProduto);
+                
+                if (produto) {
+                    subtotal += produto.preco;
+                    htmlItens += `
+                        <div class="card-produto-carrinho" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 10px 0;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <img src="${produto.imagem}" alt="${produto.nome}" style="width: 70px; height: 70px; object-fit: contain;">
+                                <div>
+                                    <h4 style="margin: 0 0 5px 0;">${produto.nome}</h4>
+                                    <p style="margin: 0; color: #2574ff; font-weight: bold;">R$ ${produto.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                                </div>
+                            </div>
+                            <button onclick="removerItem(${index})" style="background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                                Remover
+                            </button>
+                        </div>
+                    `;
+                }
+            });
+
+            listaContainer.innerHTML = htmlItens;
+            atualizarResumo(itensCarrinhoIds.length, subtotal);
+        }
+
+        function atualizarResumo(quantidade, total) {
+            document.getElementById('qtd-itens').textContent = quantidade;
+            document.getElementById('subtotal-resumo').textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('total-resumo').textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            
+            // Atualiza o badge do topo se necessário
+            const badge = document.getElementById('badge-carrinho');
+            if(badge) {
+                if (quantidade > 0) {
+                    badge.textContent = quantidade;
+                    badge.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        function removerItem(indexALevar) {
+            let itensCarrinhoIds = JSON.parse(localStorage.getItem('carrinho')) || [];
+            // Remove o item pelo índice específico na lista
+            itensCarrinhoIds.splice(indexALevar, 1);
+            localStorage.setItem('carrinho', JSON.stringify(itensCarrinhoIds));
+            carregarCarrinho(); // Recarrega a tela atualizada
+        }
+
+        function prosseguirParaEntrega() {
+            const itensCarrinhoIds = JSON.parse(localStorage.getItem('carrinho')) || [];
+            if (itensCarrinhoIds.length === 0) {
+                alert('Adicione pelo menos um produto ao carrinho antes de continuar.');
+                return;
+            }
+            // Redireciona para o próximo passo do checkout
+            window.location.href = 'endereco.html';
+        }
+
+        // Executa a função ao carregar a página
+        window.onload = carregarCarrinho;
+    </script>
+</body>
+</html>
