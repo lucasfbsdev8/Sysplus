@@ -72,17 +72,20 @@
                 <span id="total-resumo">R$ 0</span>
             </div>
             <div>
-                <button class="btn-editar" style="width: 100%; margin-top: 15px;" onclick="prosseguirParaEntrega()">
+                <button class="finalizar-compra" onclick="prosseguirParaEntrega()">
                     CONTINUAR COMPRA
                 </button>
             </div>
         </div>
     </section>
 
+    <div id="toast" class="toast"></div>
+
     <script src="js/produtos.js"></script>
+    <script src="js/carrinho.js"></script>
 
     <script>
-        // 1. Controlo do Menu Superior (Área do Utilizador)
+        // 1. Inicialização do topo da página (Identificação do Utilizador)
         const logado = localStorage.getItem('usuario_logado');
         const nome = localStorage.getItem('usuario_nome');
         const area = document.getElementById('area-usuario');
@@ -104,85 +107,91 @@
             `;
         }
 
-        // 2. Lógica para carregar os produtos adicionados no LocalStorage
-        function carregarCarrinho() {
-            // Obtém os IDs guardados no carrinho (ex: [1, 3])
-            const itensCarrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        // 2. Renderização dos produtos baseada nas funções nativas do seu carrinho.js
+        function renderizarCarrinhoDoUtilizador() {
+            // getCarrinho() vem diretamente do seu ficheiro js/carrinho.js
+            const carrinho = getCarrinho(); 
             const listaContainer = document.getElementById('lista-carrinho');
             
-            if (itensCarrinho.length === 0) {
+            if (carrinho.length === 0) {
                 listaContainer.innerHTML = '<p style="padding: 20px 0; color: #777;">O seu carrinho está vazio.</p>';
-                atualizarResumo(0, 0);
+                atualizarPainelResumo(0, 0);
                 return;
             }
 
-            let subtotal = 0;
-            let htmlItens = '';
+            let valorTotalGeral = 0;
+            let totalUnidades = 0;
+            let htmlFinal = '';
 
-            // Percorre os IDs e procura as informações completas no array PRODUTOS
-            itensCarrinho.forEach((idProduto, index) => {
-                const produto = PRODUTOS.find(p => p.id === idProduto);
-                
-                if (produto) {
-                    subtotal += produto.preco;
-                    htmlItens += `
-                        <div class="card-produto-carrinho" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 15px 0;">
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <img src="${produto.imagem}" alt="${produto.nome}" style="width: 70px; height: 70px; object-fit: contain;">
-                                <div>
-                                    <h4 style="margin: 0 0 5px 0; font-size: 16px;">${produto.nome}</h4>
-                                    <p style="margin: 0; color: #2574ff; font-weight: bold;">R$ ${produto.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-                                </div>
+            carrinho.forEach((item) => {
+                const subtotalItem = item.preco * item.qtd;
+                valorTotalGeral += subtotalItem;
+                totalUnidades += item.qtd;
+
+                // Monta a estrutura usando rigidamente as classes do seu style.css
+                htmlFinal += `
+                    <div class="card-carrinho">
+                        <img src="${item.imagem}" alt="${item.nome}">
+                        <div class="info-produto">
+                            <h3>${item.nome}</h3>
+                            <div class="quantidade">
+                                <span>Quantidade: ${item.qtd}</span>
                             </div>
-                            <button onclick="removerItem(${index})" style="background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            <button class="remover" onclick="removerProdutoCarrinho(${item.id})">
                                 Remover
                             </button>
                         </div>
-                    `;
-                }
+                        <div class="preco-produto">
+                            <p style="color: #1c86a3; font-weight: bold; margin: 0; font-size: 18px;">
+                                R$ ${subtotalItem.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            </p>
+                        </div>
+                    </div>
+                `;
             });
 
-            listaContainer.innerHTML = htmlItens;
-            atualizarResumo(itensCarrinho.length, subtotal);
+            listaContainer.innerHTML = htmlFinal;
+            atualizarPainelResumo(totalUnidades, valorTotalGeral);
         }
 
-        function atualizarResumo(quantidade, total) {
+        function atualizarPainelResumo(quantidade, total) {
             document.getElementById('qtd-itens').textContent = quantidade;
             document.getElementById('subtotal-resumo').textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
             document.getElementById('total-resumo').textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
             
-            // Atualiza a bolinha de contagem no topo se ela existir
-            const badge = document.getElementById('badge-carrinho');
-            if (badge) {
-                if (quantidade > 0) {
-                    badge.textContent = quantidade;
-                    badge.style.display = 'inline-block';
-                } else {
-                    badge.style.display = 'none';
-                }
+            // Invoca a função de atualizar a bolinha do header do seu próprio script
+            if (typeof atualizarBadge === "function") {
+                atualizarBadge();
             }
         }
 
-        // Função para remover um produto individualmente pelo seu índice na lista
-        function removerItem(indexParaRemover) {
-            let itensCarrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            itensCarrinho.splice(indexParaRemover, 1);
-            localStorage.setItem('carrinho', JSON.stringify(itensCarrinho));
-            carregarCarrinho(); // Atualiza o ecrã instantaneamente
+        // Função para remover o produto por completo e sincronizar com o seu script
+        function removerProdutoCarrinho(idProduto) {
+            let carrinho = getCarrinho();
+            // Remove o item correspondente ao ID clicado
+            carrinho = carrinho.filter(item => item.id !== idProduto);
+            salvarCarrinho(carrinho); // Atualiza o localStorage através da sua função
+            
+            // Executa a sua função de feedback visual nativa
+            if (typeof mostrarToast === "function") {
+                mostrarToast('Produto removido com sucesso!', 'sucesso');
+            }
+            
+            renderizarCarrinhoDoUtilizador(); // Atualiza o ecrã instantaneamente
         }
 
-        // Função para avançar no processo de compra
+        // Função para passar à próxima etapa (Endereço de Entrega)
         function prosseguirParaEntrega() {
-            const itensCarrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            if (itensCarrinho.length === 0) {
-                alert('Adicione pelo menos um produto ao carrinho antes de continuar.');
+            const carrinho = getCarrinho();
+            if (carrinho.length === 0) {
+                alert('O seu carrinho está vazio! Adicione produtos na página inicial.');
                 return;
             }
             window.location.href = 'endereco.html';
         }
 
-        // Executa a função assim que a página terminar de carregar
-        window.onload = carregarCarrinho;
+        // Carrega a lista de produtos assim que o documento HTML estiver pronto
+        window.onload = renderizarCarrinhoDoUtilizador;
     </script>
 </body>
 </html>
