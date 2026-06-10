@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -149,7 +148,35 @@
         }
     </script>
 
-    <script src="js/pagamento.js"></script>
+    <script>
+        function confirmarPedido() {
+            // 1. Obtém qual método foi marcado
+            const formaPagamento = document.querySelector('input[name="pagamento"]:checked').value;
+
+            // 2. Só valida dados do cartão se a opção 'cartao' estiver ativa
+            if (formaPagamento === 'cartao') {
+                const numero = document.getElementById('numero-cartao').value.trim();
+                const validade = document.getElementById('validade-cartao').value.trim();
+                const cvv = document.getElementById('cvv-cartao').value.trim();
+                const nomeCartao = document.getElementById('nome-cartao').value.trim();
+
+                if (!numero || !validade || !cvv || !nomeCartao) {
+                    alert('Por favor, preencha todos os dados do cartão de crédito.');
+                    return; 
+                }
+            }
+
+            // 3. Finalização limpa e direta para Visitante ou Logado
+            alert('Pedido confirmado com sucesso! Obrigado por comprar na Sysplus.');
+            
+            // 4. Limpa os dados de compra salvos
+            localStorage.removeItem('carrinho');
+            sessionStorage.removeItem('endereco');
+
+            // 5. Retorna para a página principal
+            window.location.href = 'index.html';
+        }
+    </script>
 
 </body>
 </html>
