@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,39 +7,81 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="img/símboloSysplus.png">
 </head>
-
 <body>
     <header>
         <div class="topo-busca">
-
             <div class="logo">
                 <a href="index.html">
                     <img src="img/logoSysplus.png" class="sysplus">
                 </a>
             </div>
-
             <div class="busca">
                 <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
             </div>
-
             <div id="area-usuario" class="botao-login"></div>
-
         </div>
     </header>
 
     <nav>
-        <div class="sub-topo  carrinho-end">
-
+        <div class="sub-topo carrinho-end">
             <div class="compras">
                 <a href="carrinho.html">
                     <img src="img/suascompras.png">
                     Suas compras
                 </a>
             </div>
-
         </div>
     </nav>
 
+    <section class="categorias-carrinho">
+        <div class="categoria-circulo">
+            <div class="bolinha ativa"></div>
+            <span>Carrinho</span>
+        </div>
+        <div class="linha-categoria"></div>
+        <div class="categoria-circulo">
+            <div class="bolinha ativa"></div>
+            <span>Entrega</span>
+        </div>
+        <div class="linha-categoria"></div>
+        <div class="categoria-circulo">
+            <div class="bolinha"></div>
+            <span>Pagamento</span>
+        </div>
+    </section>
+
+    <section class="center-perfil">
+        <div class="box-info">
+            <h4>Endereço de Entrega</h4>
+
+            <div class="campo-info">
+                <label for="logradouro">Rua / Avenida (Logradouro)</label>
+                <input type="text" id="logradouro" placeholder="Ex: Rua das Flores">
+            </div>
+
+            <div class="campo-info">
+                <label for="numero">Número</label>
+                <input type="text" id="numero" placeholder="Ex: 123">
+            </div>
+
+            <div class="linha">
+                <div class="campo-info">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" id="cidade" placeholder="Ex: São Paulo">
+                </div>
+                <div class="campo-info">
+                    <label for="uf">Estado (UF)</label>
+                    <input type="text" id="uf" maxlength="2" placeholder="Ex: SP">
+                </div>
+            </div>
+
+            <div class="end">
+                <button class="btn-editar" onclick="irParaPagamento()">
+                    IR PARA O PAGAMENTO
+                </button>
+            </div>
+        </div>
+    </section>
 
     <script>
         const logado = localStorage.getItem('usuario_logado');
@@ -48,30 +89,32 @@
         const area = document.getElementById('area-usuario');
 
         if (logado === 'true' && nome) {
-            // Usuário logado: mostra o nome
-            const primeiroNome = nome.split(' ')[0]; // pega só o primeiro nome
-
+            const primeiroNome = nome.split(' ')[0];
             area.innerHTML = `
                <a href="perfil.html">
                    <span class="saudacao">Olá, ${primeiroNome}!</span>
-                   <img src="img/user.png"  alt="perfil">
+                   <img src="img/user.png" alt="perfil">
                </a>
-           `;
+            `;
         } else {
-            // Visitante: mostra botão de login
             area.innerHTML = `
                <a href="login.html">
                    <img src="img/user.png" class="icone-perfil" alt="perfil">
                    VISITANTE
                </a>
-           `;
+            `;
         }
     </script>
+
     <script>
         function irParaPagamento() {
             const campos = ['logradouro', 'numero', 'cidade', 'uf'];
             const vazios = campos.filter(id => !document.getElementById(id).value.trim());
-            if (vazios.length) { alert('Preencha todos os campos.'); return; }
+            
+            if (vazios.length) { 
+                alert('Preencha todos os campos.'); 
+                return; 
+            }
 
             sessionStorage.setItem('endereco', JSON.stringify({
                 logradouro: document.getElementById('logradouro').value,
@@ -83,22 +126,5 @@
             window.location.href = 'pagamento.html';
         }
     </script>
-    <script>
-        function irParaPagamento() {
-          const campos = ['logradouro', 'numero', 'cidade', 'uf'];
-          const vazios = campos.filter(id => !document.getElementById(id).value.trim());
-          if (vazios.length) { alert('Preencha todos os campos.'); return; }
-
-          sessionStorage.setItem('endereco', JSON.stringify({
-            logradouro: document.getElementById('logradouro').value,
-            numero:     document.getElementById('numero').value,
-            cidade:     document.getElementById('cidade').value,
-            uf:         document.getElementById('uf').value,
-            }));
-      
-          window.location.href = 'pagamento.html';
-        }
-    </script>
 </body>
-
 </html>
