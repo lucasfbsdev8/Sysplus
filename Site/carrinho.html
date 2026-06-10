@@ -82,7 +82,7 @@
     <script src="js/produtos.js"></script>
 
     <script>
-        // 1. Controle da Área de Usuário (Menu Superior)
+        // 1. Controlo do Menu Superior (Área do Utilizador)
         const logado = localStorage.getItem('usuario_logado');
         const nome = localStorage.getItem('usuario_nome');
         const area = document.getElementById('area-usuario');
@@ -104,14 +104,14 @@
             `;
         }
 
-        // 2. Lógica para renderizar os itens do carrinho e calcular totais
+        // 2. Lógica para carregar os produtos adicionados no LocalStorage
         function carregarCarrinho() {
-            // Pega o carrinho salvo (espera-se uma lista de IDs ou objetos armazenada no localStorage)
-            const itensCarrinhoIds = JSON.parse(localStorage.getItem('carrinho')) || [];
+            // Obtém os IDs guardados no carrinho (ex: [1, 3])
+            const itensCarrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
             const listaContainer = document.getElementById('lista-carrinho');
             
-            if (itensCarrinhoIds.length === 0) {
-                listaContainer.innerHTML = '<p style="padding: 20px 0;">Seu carrinho está vazio.</p>';
+            if (itensCarrinho.length === 0) {
+                listaContainer.innerHTML = '<p style="padding: 20px 0; color: #777;">O seu carrinho está vazio.</p>';
                 atualizarResumo(0, 0);
                 return;
             }
@@ -119,22 +119,22 @@
             let subtotal = 0;
             let htmlItens = '';
 
-            // Mapeia os IDs salvos no carrinho com a lista de PRODUTOS (vinda de produtos.js)
-            itensCarrinhoIds.forEach((idProduto, index) => {
+            // Percorre os IDs e procura as informações completas no array PRODUTOS
+            itensCarrinho.forEach((idProduto, index) => {
                 const produto = PRODUTOS.find(p => p.id === idProduto);
                 
                 if (produto) {
                     subtotal += produto.preco;
                     htmlItens += `
-                        <div class="card-produto-carrinho" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 10px 0;">
+                        <div class="card-produto-carrinho" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ddd; padding: 15px 0;">
                             <div style="display: flex; align-items: center; gap: 15px;">
                                 <img src="${produto.imagem}" alt="${produto.nome}" style="width: 70px; height: 70px; object-fit: contain;">
                                 <div>
-                                    <h4 style="margin: 0 0 5px 0;">${produto.nome}</h4>
+                                    <h4 style="margin: 0 0 5px 0; font-size: 16px;">${produto.nome}</h4>
                                     <p style="margin: 0; color: #2574ff; font-weight: bold;">R$ ${produto.preco.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                                 </div>
                             </div>
-                            <button onclick="removerItem(${index})" style="background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                            <button onclick="removerItem(${index})" style="background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
                                 Remover
                             </button>
                         </div>
@@ -143,7 +143,7 @@
             });
 
             listaContainer.innerHTML = htmlItens;
-            atualizarResumo(itensCarrinhoIds.length, subtotal);
+            atualizarResumo(itensCarrinho.length, subtotal);
         }
 
         function atualizarResumo(quantidade, total) {
@@ -151,9 +151,9 @@
             document.getElementById('subtotal-resumo').textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
             document.getElementById('total-resumo').textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
             
-            // Atualiza o badge do topo se necessário
+            // Atualiza a bolinha de contagem no topo se ela existir
             const badge = document.getElementById('badge-carrinho');
-            if(badge) {
+            if (badge) {
                 if (quantidade > 0) {
                     badge.textContent = quantidade;
                     badge.style.display = 'inline-block';
@@ -163,25 +163,25 @@
             }
         }
 
-        function removerItem(indexALevar) {
-            let itensCarrinhoIds = JSON.parse(localStorage.getItem('carrinho')) || [];
-            // Remove o item pelo índice específico na lista
-            itensCarrinhoIds.splice(indexALevar, 1);
-            localStorage.setItem('carrinho', JSON.stringify(itensCarrinhoIds));
-            carregarCarrinho(); // Recarrega a tela atualizada
+        // Função para remover um produto individualmente pelo seu índice na lista
+        function removerItem(indexParaRemover) {
+            let itensCarrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            itensCarrinho.splice(indexParaRemover, 1);
+            localStorage.setItem('carrinho', JSON.stringify(itensCarrinho));
+            carregarCarrinho(); // Atualiza o ecrã instantaneamente
         }
 
+        // Função para avançar no processo de compra
         function prosseguirParaEntrega() {
-            const itensCarrinhoIds = JSON.parse(localStorage.getItem('carrinho')) || [];
-            if (itensCarrinhoIds.length === 0) {
+            const itensCarrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+            if (itensCarrinho.length === 0) {
                 alert('Adicione pelo menos um produto ao carrinho antes de continuar.');
                 return;
             }
-            // Redireciona para o próximo passo do checkout
             window.location.href = 'endereco.html';
         }
 
-        // Executa a função ao carregar a página
+        // Executa a função assim que a página terminar de carregar
         window.onload = carregarCarrinho;
     </script>
 </body>
