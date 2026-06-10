@@ -150,10 +150,10 @@
 
     <script>
         function confirmarPedido() {
-            // 1. Obtém qual método foi marcado
+            
             const formaPagamento = document.querySelector('input[name="pagamento"]:checked').value;
 
-            // 2. Só valida dados do cartão se a opção 'cartao' estiver ativa
+            
             if (formaPagamento === 'cartao') {
                 const numero = document.getElementById('numero-cartao').value.trim();
                 const validade = document.getElementById('validade-cartao').value.trim();
@@ -166,14 +166,14 @@
                 }
             }
 
-            
+           
             alert('Pedido confirmado com sucesso! Obrigado por comprar na Sysplus.');
             
             
             localStorage.removeItem('carrinho');
             sessionStorage.removeItem('endereco');
 
-           
+            
             window.location.href = 'index.html';
         }
     </script>
