@@ -27,21 +27,20 @@
             <div class="area">
                 <div class="sidebar">☰ Todos</div>
                 <div class="menu">
-                    <a href="#">Todos os Produtos</a>
-                    <a href="#">Roupas</a>
-                    <a href="#">Eletrônicos</a>
-                    <a href="#">Móveis</a>
-                    <a href="#">Brinquedos</a>
-                    <a href="#">Eletrodomésticos</a>
+                    <a href="index.html" onclick="filtrarCategoria(null, this); return false;">Todos os Produtos</a>
+                    <a href="index.html" onclick="filtrarCategoria('Moda', this); return false;">Moda</a>
+                    <a href="index.html" onclick="filtrarCategoria('Eletronicos', this); return false;">Eletrônicos</a>
+                    <a href="index.html" onclick="filtrarCategoria('Moveis', this); return false;">Móveis</a>
+                    <a href="index.html" onclick="filtrarCategoria('Esportes', this); return false;">Esportes</a>
                 </div>
             </div>
             <div class="navigation">
-                <a href="#">Ofertas do Dia</a>
-                <a href="#">Moda</a>
-                <a href="#">Eletrônicos</a>
-                <a href="#">Esportes</a>
-                <a href="#">Móveis</a>
-                <a href="#">Vender</a>
+                <a href="index.html" onclick="filtrarCategoria(null, this); return false;">Ofertas do Dia</a>
+                <a href="index.html" onclick="filtrarCategoria('Moda', this); return false;">Moda</a>
+                <a href="index.html" onclick="filtrarCategoria('Eletronicos', this); return false;">Eletrônicos</a>
+                <a href="index.html" onclick="filtrarCategoria('Esportes', this); return false;">Esportes</a>
+                <a href="index.html" onclick="filtrarCategoria('Moveis', this); return false;">Móveis</a>
+                <a href="index.html" onclick="return false;">Vender</a>
             </div>
             <div class="compras">
                 <a href="carrinho.html">
@@ -53,6 +52,9 @@
         </div>
     </nav>
     <main>
+        <button onclick="history.back()" class="btn-voltar">
+            &#8592; Voltar
+        </button>
        <div id="conteudo-produto"></div>
        <div class="toast" id="toast"></div>
     </main>
@@ -109,6 +111,10 @@
                 </p>
                 <p style="color:#3B6D11">${produto.entrega} • ${produto.frete}</p>
                 <p>${produto.descricao}</p>
+                <div style="display:flex; align-items:center; gap:8px; margin:8px 0">
+                    ${gerarEstrelas(produto.avaliacao)}
+                    <span style="color:#888; font-size:13px">${produto.avaliacao} · ${produto.avaliacoes} avaliações</span>
+                </div>
             
                 <div style="display:flex;gap:12px;margin-top:20px">
                     <button class="botao-acesso" onclick="adicionarCarrinho(${produto.id}); window.location.href='carrinho.html'">
@@ -122,6 +128,8 @@
                 </div>
             </section>`;
         }
+
+        
     </script>
 </body>
 </html>

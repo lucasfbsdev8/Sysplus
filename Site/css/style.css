@@ -1434,3 +1434,64 @@ input.campo-ok   { border: 1.5px solid #639922; }
         text-align:center;
     }
 }
+.estrela { font-size: 15px; }
+.estrela.cheia  { color: #EF9F27; }
+.estrela.vazia  { color: #ccc; }
+
+
+.estrela.meia {
+  position: relative;
+  display: inline-block;
+  color: #ccc;
+}
+.estrela.meia::before {
+  content: '★';
+  position: absolute;
+  left: 0; top: 0;
+  width: 50%;
+  overflow: hidden;
+  color: #EF9F27;
+}
+
+.btn-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 24px;
+  background: none;
+  border: none;
+  color: var(--textcolor);
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.btn-voltar:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+#btn-topo {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #29bae2, #2f7d92);
+    color: white;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 999;
+}
+
+#btn-topo:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}

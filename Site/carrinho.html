@@ -10,54 +10,73 @@
 <body>
     <header>
         <div class="topo-busca">
+
             <div class="logo">
                 <a href="index.html">
                     <img src="img/logoSysplus.png" class="sysplus">
                 </a>
             </div>
+
             <div class="busca">
                 <input type="text" placeholder="Buscar produtos, marcas e muito mais...">
             </div>
+
             <div id="area-usuario" class="botao-login"></div>
+
         </div>
     </header>
 
     <nav>
         <div class="sub-topo carrinho-end">
+
             <div class="compras">
                 <a href="carrinho.html">
                     <img src="img/suascompras.png">
                     Suas compras
+                    <span id="badge-carrinho" class="badge-carrinho" style="display:none"></span>
                 </a>
             </div>
+
         </div>
     </nav>
 
+
     <section class="categorias-carrinho">
+
         <div class="categoria-circulo">
             <div class="bolinha ativa"></div>
             <span>Carrinho</span>
         </div>
+
         <div class="linha-categoria"></div>
+
         <div class="categoria-circulo">
             <div class="bolinha"></div>
             <span>Entrega</span>
         </div>
+
         <div class="linha-categoria"></div>
+
         <div class="categoria-circulo">
             <div class="bolinha"></div>
             <span>Pagamento</span>
         </div>
+
     </section>
 
     <section class="area-carrinho">
+
         <div class="produtos-carrinho">
+
             <h2>Seu Carrinho</h2>
             <div id="lista-carrinho"></div>
+
         </div>
+
 
         <div class="resumo-carrinho">
             <h2>Resumo</h2>
+
             <div class="linha-resumo">
                 <span>Produtos (<span id="qtd-itens">0</span>)</span>
                 <span id="subtotal-resumo">R$ 0</span>
@@ -72,20 +91,23 @@
             </div>
             <div>
                 <button class="finalizar-compra" onclick="irParaEntrega()">
-                    Finalizar Compra
+                Finalizar Compra
                 </button>
             </div>
         </div>
+
     </section>
 
+    <div class="toast" id="toast"></div>
+
     <script>
-        // Controle de Login / Visitante
         const logado = localStorage.getItem('usuario_logado');
         const nome   = localStorage.getItem('usuario_nome');
         const area   = document.getElementById('area-usuario');
 
         if (logado === 'true' && nome) {
             const primeiroNome = nome.split(' ')[0];
+
             area.innerHTML = `
                 <a href="perfil.html">
                     <span class="saudacao">Olá, ${primeiroNome}!</span>
@@ -106,82 +128,90 @@
     <script src="js/carrinho.js"></script>
 
     <script>
-        // Funções de renderização locais para evitar duplicidade
         function renderizarCarrinho() {
-            // Tenta buscar do localStorage local ou usa a função do seu carrinho.js
-            let carrinho = [];
-            try {
-                carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            } catch(e) {
-                if (typeof getCarrinho === 'function') carrinho = getCarrinho();
-            }
-
+            const carrinho = getCarrinho();
             const lista = document.getElementById('lista-carrinho');
-            if (!lista) return;
         
             if (carrinho.length === 0) {
                 lista.innerHTML = '<p style="text-align:center;padding:40px;color:#888">Carrinho vazio. <a href="index.html">Ver produtos</a></p>';
-                document.getElementById('qtd-itens').textContent = '0';
+                document.getElementById('qtd-itens').textContent     = 0;
                 document.getElementById('subtotal-resumo').textContent = 'R$ 0';
-                document.getElementById('total-resumo').textContent = 'R$ 0';
+                document.getElementById('total-resumo').textContent  = 'R$ 0';
                 return;
             }
         
             lista.innerHTML = carrinho.map(item => `
                 <div class="card-carrinho">
-                    <img src="${item.imagem || ''}" class="imagem-produto">
+                    <img src="${item.imagem}" class="imagem-produto">
                     <div class="info-produto">
-                        <h3>${item.nome || 'Produto'}</h3>
-                        <p>Entrega Normal • Frete Grátis</p>
+                        <h3>${item.nome}</h3>
+                        <p>${item.entrega} • ${item.frete}</p>
                         <div class="quantidade">
-                            <button onclick="mudarQtdLocal(${item.id}, -1)">-</button>
+                            <button onclick="mudarQtd(${item.id}, -1)">-</button>
                             <span>${item.qtd}</span>
-                            <button onclick="mudarQtdLocal(${item.id}, 1)">+</button>
+                            <button onclick="mudarQtd(${item.id}, 1)">+</button>
                         </div>
                     </div>
                     <div class="preco-produto">
                         <h3>R$ ${(item.preco * item.qtd).toLocaleString('pt-BR')}</h3>
-                        <button class="remover" onclick="removerLocal(${item.id})">Remover</button>
+                        <button class="remover" onclick="remover(${item.id})">Remover</button>
                     </div>
                 </div>`).join('');
             
-            const total = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
+            const total    = carrinho.reduce((s, i) => s + i.preco * i.qtd, 0);
             const qtdTotal = carrinho.reduce((s, i) => s + i.qtd, 0);
             
-            document.getElementById('qtd-itens').textContent = qtdTotal;
+            document.getElementById('qtd-itens').textContent      = qtdTotal;
             document.getElementById('subtotal-resumo').textContent = 'R$ ' + total.toLocaleString('pt-BR');
-            document.getElementById('total-resumo').textContent = 'R$ ' + total.toLocaleString('pt-BR');
+            document.getElementById('total-resumo').textContent   = 'R$ ' + total.toLocaleString('pt-BR');
         }
             
         function irParaEntrega() {
-            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            if (carrinho.length === 0) {
-                alert('Seu carrinho está vazio!');
+            const logado = localStorage.getItem('usuario_logado');
+            if (logado !== 'true') {
+                mostrarToast('Faça login para continuar.', 'erro');
+                setTimeout(() => window.location.href = 'login.html', 1500);
+                return;
+            }
+            if (getCarrinho().length === 0) {
+                mostrarToast('Seu carrinho está vazio!', 'erro');
                 return;
             }
             window.location.href = 'endereco.html';
         }
         
-        function mudarQtdLocal(id, delta) {
-            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            const idx = carrinho.findIndex(i => i.id === id);
-            if (idx !== -1) {
-                carrinho[idx].qtd += delta;
-                if (carrinho[idx].qtd <= 0) carrinho.splice(idx, 1);
-                localStorage.setItem('carrinho', JSON.stringify(carrinho));
-                renderizarCarrinho();
-            }
-        }
 
-        function removerLocal(id) {
-            let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-            carrinho = carrinho.filter(i => i.id !== id);
-            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            
+        function irParaEntrega() {
+            const logado = localStorage.getItem('usuario_logado');
+            if (logado !== 'true') {
+                mostrarToast('Faça login para continuar.', 'erro');
+                setTimeout(() => window.location.href = 'login.html', 1500);
+                return;
+            }
+            if (getCarrinho().length === 0) {
+                mostrarToast('Seu carrinho está vazio!', 'erro');
+                return;
+            }
+            window.location.href = 'endereco.html';
+        }
+        
+        function mudarQtd(id, delta) {
+            let c = getCarrinho();
+            const idx = c.findIndex(i => i.id === id);
+            c[idx].qtd += delta;
+            if (c[idx].qtd <= 0) c.splice(idx, 1);
+            salvarCarrinho(c);
             renderizarCarrinho();
         }
 
-        // Executa ao carregar a página
+        function remover(id) {
+            salvarCarrinho(getCarrinho().filter(i => i.id !== id));
+            renderizarCarrinho();
+        }
+
         renderizarCarrinho();
     </script>
+
 </body>
 </html>
