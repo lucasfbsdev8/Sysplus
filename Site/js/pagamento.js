@@ -17,7 +17,6 @@ function renderPix() {
     const codigo = '00020126580014BR.GOV.BCB.PIX0136sysplus@banco.com.br5204000053039865802BR5913SYSPLUS LOJA6009SAO PAULO62070503***6304ABCD';
     return `
         <div class="pix-titulo">
-            <div class="pix-icone">✕</div>
             <h2>Como pagar usando PIX</h2>
         </div>
         <p><strong>1.</strong> Copie o código PIX de pagamento abaixo</p>
@@ -33,13 +32,7 @@ function renderPix() {
         </ul>
         <div class="pix-qr">
             <p>Ou escaneie o QR code usando um aplicativo bancário compatível com Pix:</p>
-            <div class="qr-placeholder">
-                ${Array(25).fill('<span></span>').map((s, i) =>
-                    [0,2,4,6,8,10,14,16,20,22,24].includes(i)
-                        ? '<span style="background:#222"></span>'
-                        : s
-                ).join('')}
-            </div>
+            <div class="qr-placeholder" id="qr-placeholder"></div>
         </div>
         <div class="end" style="margin-top:30px">
             <button class="btn-editar" onclick="finalizarPedido()">CONFIRMAR PAGAMENTO</button>
@@ -49,7 +42,6 @@ function renderPix() {
 function renderBoleto() {
     return `
         <div class="boleto-titulo">
-            <span class="barcode-icon">| | | | | | | | |</span>
             <h2>BOLETO</h2>
             <span style="margin-left:8px;font-size:18px;font-weight:bold;">COLOQUE O CPF DO PAGADOR</span>
         </div>
@@ -187,13 +179,31 @@ document.addEventListener('input', function (e) {
     }
 });
 
+/* ── QR code real do Pix (gerado via QRCode.js) ── */
+function gerarQrCodePix(codigo) {
+    const container = document.getElementById('qr-placeholder');
+    if (!container || typeof QRCode === 'undefined') return;
+
+    container.innerHTML = '';
+    new QRCode(container, {
+        text: codigo,
+        width: 150,
+        height: 150,
+        colorDark: '#222222',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+    });
+}
+
 const forma      = sessionStorage.getItem('forma_pagamento');
 const container  = document.getElementById('conteudo-pagamento');
  
 if (!forma) {
     container.innerHTML = '<p style="text-align:center;padding:40px">Forma de pagamento não encontrada. <a href="formapagamento.html">Voltar</a></p>';
 } else if (forma === 'pix') {
+    const codigoPix = '00020126580014BR.GOV.BCB.PIX0136sysplus@banco.com.br5204000053039865802BR5913SYSPLUS LOJA6009SAO PAULO62070503***6304ABCD';
     container.innerHTML = renderPix();
+    gerarQrCodePix(codigoPix);
 } else if (forma === 'boleto') {
     container.innerHTML = renderBoleto();
 } else if (forma === 'cartao-debito') {

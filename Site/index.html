@@ -223,5 +223,18 @@
 
         renderizarHome(PRODUTOS);
     </script>
+     <script>
+        const sidebar = document.querySelector('.sidebar');
+        const menu    = document.querySelector('.menu');
+
+        sidebar.addEventListener('click', function (e) {
+            e.stopPropagation();
+            menu.classList.toggle('aberto');
+        });
+
+        document.addEventListener('click', function () {
+            menu.classList.remove('aberto');
+        });
+    </script>
 </body>
 </html>

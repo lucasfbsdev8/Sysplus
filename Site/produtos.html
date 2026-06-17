@@ -85,6 +85,19 @@
             `;
         }
     </script>
+     <script>
+        const sidebar = document.querySelector('.sidebar');
+        const menu    = document.querySelector('.menu');
+
+        sidebar.addEventListener('click', function (e) {
+            e.stopPropagation();
+            menu.classList.toggle('aberto');
+        });
+
+        document.addEventListener('click', function () {
+            menu.classList.remove('aberto');
+        });
+    </script>
     <script src="js/produtos.js"></script>
     <script src="js/carrinho.js"></script>
     <script>
@@ -111,8 +124,9 @@
                 </p>
                 <p style="color:#3B6D11">${produto.entrega} • ${produto.frete}</p>
                 <p>${produto.descricao}</p>
+                ${produto.avaliacao}
+                ${gerarEstrelas(produto.avaliacao)}
                 <div style="display:flex; align-items:center; gap:8px; margin:8px 0">
-                    ${gerarEstrelas(produto.avaliacao)}
                     <span style="color:#888; font-size:13px">${produto.avaliacao} · ${produto.avaliacoes} avaliações</span>
                 </div>
             
