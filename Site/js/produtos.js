@@ -113,8 +113,8 @@ const PRODUTOS = [
   {
     id: 8,
     nome: "Sofá Retrátil e Reclinável",
-    preco: "2.559,99",
-    precoOriginal: "2.559,99",
+    preco: 2559.99,
+    precoOriginal: 2559.99,
     imagem: "img/sofá.webp",
     categoria: ["Moveis"],
     oferta: false,
@@ -127,8 +127,8 @@ const PRODUTOS = [
   {
     id: 9,
     nome: "Calça Jeans Wide Leg Cinza",
-    preco: "179,99",
-    precoOriginal: "179,99",
+    preco: 179.99,
+    precoOriginal: 179.99,
     imagem: "img/calça.webp",
     categoria: ["Moda"],
     oferta: false,
@@ -155,8 +155,8 @@ const PRODUTOS = [
   {
     id: 11,
     nome: "Camisa do Brasil I",
-    preco: "449,99",
-    precoOriginal: "449,99",
+    preco: 449.99,
+    precoOriginal: 449.99,
     imagem: "img/camisaBrasil.webp",
     categoria: ["Moda", "Esportes"],
     oferta: false,
@@ -183,8 +183,8 @@ const PRODUTOS = [
   {
     id: 13,
     nome: "Bola de Vôlei Mikasa V360W Couro Sintético",
-    preco: "189,99",
-    precoOriginal: "189,99",
+    preco: 189.99,
+    precoOriginal: 189.99,
     imagem: "img/bolaVolei.jpg",
     categoria: ["Esportes"],
     oferta: false,
