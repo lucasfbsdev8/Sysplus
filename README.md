@@ -4,8 +4,7 @@ Simulação de um marketplace feito apenas com **HTML, CSS e JavaScript puro**, 
  
 > Projeto acadêmico e de estudo. Nenhum pagamento é processado e nenhum dado sai do navegador.
  
-**Demonstração em vídeo:** [assistir](https://youtu.be/ID-DO-VIDEO)
-**Site no ar:** [abrir](https://lucasfbsdev8.github.io/NOME-REAL-DO-REPOSITORIO/)
+**Site no ar:** [abrir](https://lucasfbsdev8.github.io/Sysplus/)
  
 ![Página inicial do Sysplus](docs/home.png)
  
