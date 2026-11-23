@@ -91,5 +91,7 @@ Este é um projeto didático, então algumas partes são simulações de propós
 ## Autores
  
 - [Lucas Fernandes](https://github.com/lucasfbsdev8)
-- *(acrescente aqui os colegas do grupo, se houver)*
+- [Artur Furtado](https://github.com/arturfurtado1)
+- [Guilherme Faria](https://github.com/guilhermehrf-hue)
+  
 Projeto desenvolvido no curso de Sistemas de Informação.
