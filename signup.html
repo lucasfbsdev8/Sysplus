@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/símboloSysplus.png">
+</head>
+<body>
+    <header>
+        <div class="topo">
+            <div class="logo">
+                    <a href="index.html"><img src="img/logoSysplus.png" class="sysplus">
+                    </a>
+                </div>
+            <div>
+                <a href="login.html" class="botao-login">LOGIN</a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section>
+            <div class="center">
+                <form class="box" id="formEtapa1" onsubmit="validarEtapa1(event)">
+                <p class="etapa">Etapa 1: Dados Basícos</p>
+                <h2>CRIAR CONTA</h2>
+                <p class="cadastro">Projeto acadêmico fictício. Não use dados reais.</p>
+                <div>
+                    <label for="name">Nome Completo:</label>
+                    <input type="text" id="name" name="name" required>
+                </div><br>
+                <div>
+                <div>
+                    <label for="user">Usuário:</label>
+                    <input type="text" id="user" name="user" required>
+                </div><br>
+                <div>
+                    <label for="cpf">CPF ou CNPJ:</label>
+                    <input type="tel" id="cpf" name="cpf" placeholder="CPF ou CNPJ" maxlength="18" required>
+                </div><br>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div><br>
+                <div>
+                    <label for="telefone">Telefone(DDD):</label>
+                    <input type="tel" id="telefone" name="telefone" placeholder="(__)_ ____-____" maxlength="15" required>
+                </div><br>
+                <div class="linha">
+                    <div>
+                        <label for="senha">Senha:</label>
+                        <input type="password" id="senha" name="senha" required>
+                    </div><br>
+                    <div>
+                        <label for="confirmar">Confirmar senha:</label>
+                        <input type="password" id="confirmar" name="confirmar" required>
+                    </div><br>
+                </div>
+                <button type="submit" class="botao-acesso">Enviar</button>
+                <p class="cadastro">
+                    Já tem Conta? <a href="login.html" class="botao-signup">Fazer Login</a>
+                </p>
+            </form>
+            </div>
+        </section>
+    </main>
+            
+    <script>
+    function validarEtapa1(event) {
+        event.preventDefault();
+        
+        const nome     = document.getElementById('name').value.trim();
+        const usuario  = document.getElementById('user').value.trim();
+        const cpf      = document.getElementById('cpf').value.trim();
+        const email    = document.getElementById('email').value.trim();
+        const telefone = document.getElementById('telefone').value.trim();
+        const senha    = document.getElementById('senha').value;
+        const confirmar = document.getElementById('confirmar').value;
+
+        if (!nome || !usuario || !cpf || !email || !telefone || !senha || !confirmar) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Por favor, insira um email válido.');
+            return;
+        }
+
+        if (senha !== confirmar) {
+            alert('As senhas não coincidem. Tente novamente.');
+            document.getElementById('senha').value = '';
+            document.getElementById('confirmar').value = '';
+            document.getElementById('senha').focus();
+            return;
+        }
+
+        if (senha.length < 6) {
+            alert('A senha deve ter pelo menos 6 caracteres.');
+            return;
+        }
+
+        sessionStorage.setItem('cadastro_nome', nome);
+        sessionStorage.setItem('cadastro_usuario', usuario);
+        sessionStorage.setItem('cadastro_cpf', cpf);
+        sessionStorage.setItem('cadastro_email', email);
+        sessionStorage.setItem('cadastro_telefone', telefone);
+        sessionStorage.setItem('cadastro_senha', senha);
+
+        window.location.href = 'signup2.html';
+    }
+    </script>
+</body>
+</html>
